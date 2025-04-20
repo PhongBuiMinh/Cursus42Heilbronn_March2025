@@ -3,36 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:23:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/19 18:53:12 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/04/20 17:23:15 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-bool	find_next_line(t_list *list)
+// char	*extract_line(t_list **list)
+// {
+// 	char	*line;
+// 	size_t	line_length;
+
+// 	t_list	*traverse;
+
+// 	traverse = list;
+// 	while (traverse)
+// 	{
+		
+// 	}
+// }
+
+bool	find_new_line(t_list *list)
 {
-	t_list	*traverse;
 	size_t	i;
 
-	traverse = list;
-	while (traverse)
+	while (list)
 	{
 		i = 0;
-		while (traverse->str[i])
+		while (list->str[i])
 		{
-			if (traverse->str[i] == '\n')
+			if (list->str[i] == '\n')
 				return (true);
 			i++;
 		}
-		traverse = traverse->next;
+		list = list->next;
 	}
 	return (false);
 }
 
-t_list	*append_to_list(t_list *head, char *str)
+t_list	*append_to_list(t_list *head, char *str, int len)
 {
 	t_list	*new_node;
 	t_list	*traverse;
@@ -40,9 +52,11 @@ t_list	*append_to_list(t_list *head, char *str)
 	new_node = malloc(sizeof(t_list));
 	if (!new_node)
 		return (NULL);
-	new_node->str = ft_strdup(str);
+	
+	new_node->str = ft_strdup(str, len);
+	new_node->length = len;
 	new_node->next = NULL;
-
+	
 	if (head == NULL)
 		return (new_node);
 	traverse = head;
@@ -56,22 +70,22 @@ char	*get_next_line(int fd)
 {
 	static t_list	*buffer_list;
 	char			buffer[BUFFER_SIZE + 1];
-	size_t			bytes_read;
+	int				bytes_read;
 
 	buffer_list = NULL;
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	bytes_read = 1;
 	while (bytes_read > 0)
 	{
-		buffer[bytes_read] = '\0';
-		buffer_list = append_to_list(buffer_list, buffer);
-		printf("Check\n");
-		if (find_next_line(buffer_list))
-		{
-			printf("Found\n");
-			break ;
-		}
-
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			// free
+			return (NULL);
+		}
+		buffer[bytes_read] = '\0';
+		buffer_list = append_to_list(buffer_list, buffer, bytes_read);
+		if (find_new_line(buffer_list))
+			break ;
 	}
 	return (buffer_list->str);
 }
@@ -79,9 +93,7 @@ char	*get_next_line(int fd)
 int	main(void)
 {
 	int	fd;
-	int	i;
 
-	i = 0;
 	fd = open("test1.txt", O_RDONLY);
 	printf("Content in test1 file: %s\n", get_next_line(fd));
 	close(fd);
@@ -96,6 +108,13 @@ int	main(void)
 	// printf("O_RDWR = %d\n", O_RDWR);
 	// printf("O_CREAT = %d\n", O_CREAT);
 	// printf("O_EXCL = %d\n", O_EXCL);
+
+	char str[] = "Hello111\nWorld";
+	char *newline = strchr(str, '\n');
+
+	// Pointer arithmetic (offset calculation)
+	size_t offset = newline - str;  
+	printf("Offset: %zu\n", offset);
 
 	return (0);
 }

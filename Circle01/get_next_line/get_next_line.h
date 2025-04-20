@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:24:50 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/19 15:41:32 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/04/20 16:44:25 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,18 @@
 # include <unistd.h>
 
 # include <stdio.h>
+# include <string.h>
 
 typedef struct s_list
 {
 	char			*str;
+	int				length;
 	struct s_list	*next;
 }	t_list;
 
 char	*get_next_line(int fd);
 
 size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
+char	*ft_strdup(const char *s1, int len);
 
 #endif
