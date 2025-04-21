@@ -6,7 +6,7 @@
 /*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:24:50 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/20 16:44:25 by phong            ###   ########.fr       */
+/*   Updated: 2025/04/20 21:41:21 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@
 typedef struct s_list
 {
 	char			*str;
-	int				length;
 	struct s_list	*next;
 }	t_list;
 
 char	*get_next_line(int fd);
 
 size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1, int len);
+char	*ft_strdup(const char *s1);
 
 #endif

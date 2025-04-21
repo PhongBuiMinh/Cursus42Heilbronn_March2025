@@ -6,7 +6,7 @@
 #    By: phong <phong@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 14:27:21 by fbui-min          #+#    #+#              #
-#    Updated: 2025/04/20 17:14:09 by phong            ###   ########.fr        #
+#    Updated: 2025/04/20 23:06:48 by phong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,5 +36,5 @@ re: fclean all
 .PHONY: clean fclean re all
 
 program:
-	@$(GCC) $(CFLAGs) -D BUFFER_SIZE=1 $(SRCs)
+	@$(GCC) $(CFLAGs) -D BUFFER_SIZE=5 $(SRCs)
 
