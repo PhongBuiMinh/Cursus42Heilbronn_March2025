@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:27:08 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/22 20:41:13 by phong            ###   ########.fr       */
+/*   Updated: 2025/04/23 17:42:57 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strdup(const char *s1)
 	len = 0;
 	while (s1[len])
 		len++;
-	dst = malloc(len + 1);
+	dst = (char *)malloc(len + 1);
 	if (!dst)
 		return (NULL);
 	i = -1;
@@ -48,4 +48,49 @@ char	*ft_strchr(const char *s, int c)
 	if (newc == '\0')
 		return ((char *)&s[i]);
 	return (NULL);
+}
+
+t_list	*ft_lstlast(t_list *list)
+{
+	if (!list)
+		return (NULL);
+	while (list->next)
+		list = list->next;
+	return (list);
+}
+
+size_t	calculate_line_length(t_list *list)
+{
+	int		i;
+	size_t	len;
+
+	len = 0;
+	while (list)
+	{
+		i = 0;
+		while (list->str[i] && list->str[i] != '\n')
+			i++;
+		len += i;
+		if (list->str[i] == '\n')
+		{
+			len++;
+			break ;
+		}
+		list = list->next;
+	}
+	return (len);
+}
+
+void	ft_lstclear(t_list **lst)
+{
+	t_list	*clean;
+
+	while (*lst)
+	{
+		clean = *lst;
+		*lst = (*lst)->next;
+		free(clean->str);
+		free(clean);
+	}
+	*lst = NULL;
 }

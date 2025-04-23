@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: phong <phong@student.42.fr>                +#+  +:+       +#+         #
+#    By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 14:27:21 by fbui-min          #+#    #+#              #
-#    Updated: 2025/04/22 21:12:54 by phong            ###   ########.fr        #
+#    Updated: 2025/04/23 19:56:25 by fbui-min         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,6 @@ re: fclean all
 
 .PHONY: clean fclean re all
 
-# program:
-# 	@$(GCC) $(CFLAGs) -D BUFFER_SIZE=5 $(SRCs)
+program:
+	@$(GCC) $(CFLAGs) -D BUFFER_SIZE=10 -g -o program $(SRCs)
 
