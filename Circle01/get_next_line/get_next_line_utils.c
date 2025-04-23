@@ -6,34 +6,46 @@
 /*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:27:08 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/20 21:45:32 by phong            ###   ########.fr       */
+/*   Updated: 2025/04/22 20:41:13 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
-{
-	int	len;
-
-	len = -1;
-	while (s[++len]);
-	return (len);
-}
-
 char	*ft_strdup(const char *s1)
 {
 	char	*dst;
-	size_t	i;
+	int		i;
+	size_t	len;
 
-	dst = malloc(ft_strlen(s1) + 1);
-	if (dst == NULL || s1 == NULL)
+	if (!s1)
 		return (NULL);
-	
+	len = 0;
+	while (s1[len])
+		len++;
+	dst = malloc(len + 1);
+	if (!dst)
+		return (NULL);
 	i = -1;
 	while (s1[++i])
 		dst[i] = s1[i];
-
 	dst[i] = '\0';
 	return (dst);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	unsigned char	newc;
+	int				i;
+
+	newc = (unsigned char)c;
+	i = -1;
+	while (s[++i])
+	{
+		if (s[i] == newc)
+			return ((char *)&s[i]);
+	}
+	if (newc == '\0')
+		return ((char *)&s[i]);
+	return (NULL);
 }
