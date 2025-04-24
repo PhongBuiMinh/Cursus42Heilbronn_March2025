@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:27:08 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/23 17:42:57 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/04/24 07:41:41 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,6 @@ char	*ft_strchr(const char *s, int c)
 	if (newc == '\0')
 		return ((char *)&s[i]);
 	return (NULL);
-}
-
-t_list	*ft_lstlast(t_list *list)
-{
-	if (!list)
-		return (NULL);
-	while (list->next)
-		list = list->next;
-	return (list);
 }
 
 size_t	calculate_line_length(t_list *list)
