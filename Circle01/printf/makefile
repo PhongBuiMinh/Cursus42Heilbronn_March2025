@@ -6,7 +6,7 @@
 #    By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/08 15:50:48 by fbui-min          #+#    #+#              #
-#    Updated: 2025/04/08 17:54:55 by fbui-min         ###   ########.fr        #
+#    Updated: 2025/04/25 22:31:07 by fbui-min         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ $(NAME): $(OBJ)
 	ar -rsc $(NAME) $(OBJ)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $(SRC)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 fclean:
 	rm -f $(OBJ) $(NAME)
