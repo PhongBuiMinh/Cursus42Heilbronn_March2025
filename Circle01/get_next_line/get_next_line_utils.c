@@ -6,7 +6,7 @@
 /*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:27:08 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/24 07:41:41 by phong            ###   ########.fr       */
+/*   Updated: 2025/04/25 00:55:51 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strdup(const char *s1)
 	len = 0;
 	while (s1[len])
 		len++;
-	dst = (char *)malloc(len + 1);
+	dst = (char *)malloc((len + 1) * sizeof(char));
 	if (!dst)
 		return (NULL);
 	i = -1;
@@ -33,43 +33,44 @@ char	*ft_strdup(const char *s1)
 	return (dst);
 }
 
-char	*ft_strchr(const char *s, int c)
+size_t	calculate_line_length(t_list *lst)
 {
-	unsigned char	newc;
-	int				i;
+	size_t	line_len;
 
-	newc = (unsigned char)c;
-	i = -1;
-	while (s[++i])
+	line_len = 0;
+	if (!lst)
+		return (line_len);
+	while (lst)
 	{
-		if (s[i] == newc)
-			return ((char *)&s[i]);
+		line_len += lst->part_len;
+		lst = lst->next;
 	}
-	if (newc == '\0')
-		return ((char *)&s[i]);
-	return (NULL);
+	return (line_len);
 }
 
-size_t	calculate_line_length(t_list *list)
+bool	has_new_line(t_list *lst)
 {
-	int		i;
 	size_t	len;
+	int		i;
 
-	len = 0;
-	while (list)
+	if (!lst)
+		return (false);
+	while (lst)
 	{
-		i = 0;
-		while (list->str[i] && list->str[i] != '\n')
-			i++;
-		len += i;
-		if (list->str[i] == '\n')
+		i = -1;
+		len = 0;
+		while (lst->str[++i] && lst->str[i] != '\n')
+			len++;
+		if (lst->str[i] == '\n')
 		{
 			len++;
-			break ;
+			lst->part_len = len;
+			return (true);
 		}
-		list = list->next;
+		lst->part_len = len;
+		lst = lst->next;
 	}
-	return (len);
+	return (false);
 }
 
 void	ft_lstclear(t_list **lst)

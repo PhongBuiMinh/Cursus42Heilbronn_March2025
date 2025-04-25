@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:24:50 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/23 18:47:27 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:16:23 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 256
 # endif
 
 # include <fcntl.h>
@@ -27,15 +27,18 @@
 typedef struct s_list
 {
 	char			*str;
+	size_t			part_len; // partial line length
 	struct s_list	*next;
 }	t_list;
 
 char	*get_next_line(int fd);
-void	ft_lstclear(t_list **lst);
+void	update_leftover(char *buffer);
+char	*extract_line(t_list *lst);
+void	append_to_list(t_list **head, char *buffer);
 
+void	ft_lstclear(t_list **lst);
 char	*ft_strdup(const char *s1);
-char	*ft_strchr(const char *s, int c);
 size_t	calculate_line_length(t_list *list);
-t_list	*ft_lstlast(t_list *list);
+bool	has_new_line(t_list *lst);
 
 #endif
