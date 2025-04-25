@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: phong <phong@student.42.fr>                +#+  +:+       +#+         #
+#    By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 14:27:21 by fbui-min          #+#    #+#              #
-#    Updated: 2025/04/25 20:59:38 by phong            ###   ########.fr        #
+#    Updated: 2025/04/25 22:29:51 by fbui-min         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ $(NAME): $(OBJs)
 	@ar -src $(NAME) $(OBJs)
 
 %.o: %.c
-	@$(GCC) $(CFLAGs) -c $< -o $@
+	$(GCC) $(CFLAGs) -c $< -o $@
 
 clean:
 	@rm -f $(OBJs)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:23:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/04/25 14:07:58 by phong            ###   ########.fr       */
+/*   Updated: 2025/04/25 22:26:39 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ void	append_to_list(t_list **head, char *buffer)
 		return ;
 	new_node->str = ft_strdup(buffer);
 	if (!new_node->str)
-	{
-		free(new_node->str);
-		return ;
-	}
+		return (free(new_node->str), free(new_node));
 	new_node->next = NULL;
 	last = *head;
 	if (!*head)
@@ -88,8 +85,8 @@ char	*get_next_line(int fd)
 	int			bytes_read;
 
 	buffer_list = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
+		return (buffer[0] = '\0', (NULL));
 	if (*buffer)
 		append_to_list(&buffer_list, buffer);
 	while (!has_new_line(buffer_list))
@@ -154,7 +151,7 @@ char	*get_next_line(int fd)
 // 	// char *newline = strchr(str, '\n');
 
 // 	// Pointer arithmetic (offset calculation)
-// 	// size_t offset = newline - str;  
+// 	// size_t offset = newline - str;
 // 	// printf("Offset: %zu\n", offset);
 
 // 	return (0);
