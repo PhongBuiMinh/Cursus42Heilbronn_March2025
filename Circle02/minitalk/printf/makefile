@@ -6,7 +6,7 @@
 #    By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/08 15:50:48 by fbui-min          #+#    #+#              #
-#    Updated: 2025/04/25 22:31:07 by fbui-min         ###   ########.fr        #
+#    Updated: 2025/06/11 18:05:41 by fbui-min         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,16 +21,16 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar -rsc $(NAME) $(OBJ)
+	@ar -rsc $(NAME) $(OBJ)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 fclean:
-	rm -f $(OBJ) $(NAME)
+	@rm -f $(OBJ) $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 re: fclean all
 

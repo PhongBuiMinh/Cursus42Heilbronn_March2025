@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/11 02:07:23 by phong             #+#    #+#             */
-/*   Updated: 2025/06/11 07:41:20 by phong            ###   ########.fr       */
+/*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
+/*   Updated: 2025/06/11 21:14:37 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "libft.h"
-#include "ft_printf.h"
-
-// int	main()
-// {
-// 	unsigned char	letter = 'A';
-// 	int				i;
-
-// 	i = 8;
-// 	while (i-- > 0)
-// 		printf("Bit %d // %d\n", i, ((letter >> i) & 1));
-
-// 	return (0);
-// }
+#include "minitalk.h"
 
 void	send_bit(int PID, int bit)
 {
