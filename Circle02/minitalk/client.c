@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/06/15 15:15:18 by phong            ###   ########.fr       */
+/*   Updated: 2025/06/15 20:52:54 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 volatile sig_atomic_t g_ack_received = 0;
 
-void	ft_sig_handler(int sig)
+void	ft_signal_handler(int sig)
 {
 	static size_t	bit = 0;
 
@@ -28,6 +28,7 @@ void	ft_sig_handler(int sig)
 		printf("received bits :%ld", bit++);
 		g_ack_received = 1;
 		bit = 0;
+		exit(0);
 	}
 }
 
@@ -37,10 +38,10 @@ void	send_bit(int PID, char byte)
 	int	timeout;
 
 	i = 8;
-	timeout = 300;
-	g_ack_received = 0;
+	timeout = 500;
 	while (i-- > 0)
 	{
+		g_ack_received = 0;
 		if (((byte >> i) & 1) == 0)
 			kill(PID, SIGUSR1);
 		else if (((byte >> i) & 1) == 1)
@@ -50,6 +51,8 @@ void	send_bit(int PID, char byte)
 			usleep(100);
 			timeout -= 100;
 		}
+		if (timeout <= 0)
+			printf("timeout\n");
 	}
 }
 
@@ -73,16 +76,17 @@ int	main(int argc, char **argv)
 	pid = ft_atoi(argv[1]);
 	if (pid <= 0)
 		return (ft_printf("PID error.\n"), 1);
-	sa.sa_handler = ft_sig_handler;
+	sa.sa_handler = ft_signal_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
-	printf("ab1\n");
-	if (sigaction(SIGUSR1, &sa, NULL) == -1 || sigaction(SIGUSR2, &sa, NULL))
+	if (sigaction(SIGUSR1, &sa, NULL) == -1
+		|| sigaction(SIGUSR2, &sa, NULL) == -1)
 		return (printf("Custom handler failed."), 1);
-	printf("ab2\n");
 	encode_string(pid, argv[2]);
+	while (1)
+		pause();
 	return (0);
 }
 

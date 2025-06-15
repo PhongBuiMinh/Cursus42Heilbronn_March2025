@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/06/15 12:28:45 by phong            ###   ########.fr       */
+/*   Updated: 2025/06/15 20:32:19 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@ void	ft_sig_handler(int sig, siginfo_t *info, void *context)
 		byte &= ~(1 << bit_pos);
 	else if (sig == SIGUSR2)
 		byte |= (1 << bit_pos);
+	printf("Received %d at position %d\n", (sig == SIGUSR2), bit_pos);
 	bit_pos--;
 	if (bit_pos < 0)
 	{
 		write(1, &byte, 1);
-		if (byte == '\n')
-			g_send_status = kill(info->si_pid, SIGUSR1);
-		else
+		if (byte == '\0')
 			g_send_status = kill(info->si_pid, SIGUSR2);
+		else
+			g_send_status = kill(info->si_pid, SIGUSR1);
 		byte = 0;
 		bit_pos = 7;
 	}
@@ -47,10 +48,10 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1 || sigaction(SIGUSR2, &sa, NULL) == -1)
-		printf("Custom handler failed.");
+	if (sigaction(SIGUSR1, &sa, NULL) == -1
+		|| sigaction(SIGUSR2, &sa, NULL) == -1)
+		return (printf("Custom handler failed."), 1);
 	g_send_status = 0;
-	printf("a1");
 	while (1)
 	{
 		if (g_send_status == -1)
