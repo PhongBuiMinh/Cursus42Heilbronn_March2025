@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/06/15 20:52:54 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:26:10 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ void	ft_signal_handler(int sig)
 	}
 	else if (sig == SIGUSR2)
 	{
-		printf("received bits :%ld", bit++);
+		printf("All bits: %ld", bit++);
 		g_ack_received = 1;
 		bit = 0;
-		exit(0);
 	}
 }
 
@@ -38,9 +37,9 @@ void	send_bit(int PID, char byte)
 	int	timeout;
 
 	i = 8;
-	timeout = 500;
 	while (i-- > 0)
 	{
+		timeout = 500;
 		g_ack_received = 0;
 		if (((byte >> i) & 1) == 0)
 			kill(PID, SIGUSR1);
@@ -51,8 +50,11 @@ void	send_bit(int PID, char byte)
 			usleep(100);
 			timeout -= 100;
 		}
-		if (timeout <= 0)
-			printf("timeout\n");
+		if (timeout < 0)
+		{
+			printf("Acknowledge failed.");
+			return ;
+		}
 	}
 }
 
@@ -85,8 +87,6 @@ int	main(int argc, char **argv)
 		|| sigaction(SIGUSR2, &sa, NULL) == -1)
 		return (printf("Custom handler failed."), 1);
 	encode_string(pid, argv[2]);
-	while (1)
-		pause();
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/06/15 20:32:19 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:26:13 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	ft_sig_handler(int sig, siginfo_t *info, void *context)
 		byte &= ~(1 << bit_pos);
 	else if (sig == SIGUSR2)
 		byte |= (1 << bit_pos);
-	printf("Received %d at position %d\n", (sig == SIGUSR2), bit_pos);
 	bit_pos--;
 	if (bit_pos < 0)
 	{
