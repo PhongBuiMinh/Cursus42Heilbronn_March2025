@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/06/11 21:08:24 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/06/15 12:28:45 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	signal_handler(int sig)
+volatile sig_atomic_t g_send_status = 0;
+
+void	ft_sig_handler(int sig, siginfo_t *info, void *context)
 {
 	static char	byte = 0;
 	static int	bit_pos = 7;
 
-	if (sig == SIGINT || sig == SIGTERM)
-		exit(0);
-	else if (sig == SIGUSR1)
+	(void)context;
+	if (sig == SIGUSR1)
 		byte &= ~(1 << bit_pos);
 	else if (sig == SIGUSR2)
 		byte |= (1 << bit_pos);
@@ -27,6 +28,10 @@ void	signal_handler(int sig)
 	if (bit_pos < 0)
 	{
 		write(1, &byte, 1);
+		if (byte == '\n')
+			g_send_status = kill(info->si_pid, SIGUSR1);
+		else
+			g_send_status = kill(info->si_pid, SIGUSR2);
 		byte = 0;
 		bit_pos = 7;
 	}
@@ -34,21 +39,65 @@ void	signal_handler(int sig)
 
 int	main(void)
 {
-	struct sigaction	action;
+	struct sigaction	sa;
 
 	ft_printf("%d\n", getpid());
-	action.sa_handler = signal_handler;
-	action.sa_flags = 0;
-	sigemptyset(&action.sa_mask);
-	sigaction(SIGINT, &action, NULL);
-	sigaction(SIGTERM, &action, NULL);
-	sigaction(SIGUSR1, &action, NULL);
-	sigaction(SIGUSR2, &action, NULL);
+	sa.sa_sigaction = ft_sig_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1 || sigaction(SIGUSR2, &sa, NULL) == -1)
+		printf("Custom handler failed.");
+	g_send_status = 0;
+	printf("a1");
 	while (1)
+	{
+		if (g_send_status == -1)
+			return (printf("Failed to send a signal"), 1);
 		pause();
+	}
 	return (0);
 }
 
+// Version 1
+// void	signal_handler(int sig)
+// {
+// 	static char	byte = 0;
+// 	static int	bit_pos = 7;
+
+// 	if (sig == SIGINT || sig == SIGTERM)
+// 		exit(0);
+// 	else if (sig == SIGUSR1)
+// 		byte &= ~(1 << bit_pos);
+// 	else if (sig == SIGUSR2)
+// 		byte |= (1 << bit_pos);
+// 	bit_pos--;
+// 	if (bit_pos < 0)
+// 	{
+// 		write(1, &byte, 1);
+// 		byte = 0;
+// 		bit_pos = 7;
+// 	}
+// }
+
+// int	main(void)
+// {
+// 	struct sigaction	action;
+
+// 	ft_printf("%d\n", getpid());
+// 	action.sa_handler = signal_handler;
+// 	action.sa_flags = 0;
+// 	sigemptyset(&action.sa_mask);
+// 	sigaction(SIGINT, &action, NULL);
+// 	sigaction(SIGTERM, &action, NULL);
+// 	sigaction(SIGUSR1, &action, NULL);
+// 	sigaction(SIGUSR2, &action, NULL);
+// 	while (1)
+// 		pause();
+// 	return (0);
+// }
+// ///////////////////////////////////////////////
 // void	advanced_signal_handler(int sig, siginfo_t *info, void *ucontext)
 // {
 // 	(void)ucontext;
