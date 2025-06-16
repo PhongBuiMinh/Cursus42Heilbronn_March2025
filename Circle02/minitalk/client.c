@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/06/15 22:26:10 by phong            ###   ########.fr       */
+/*   Updated: 2025/06/16 18:00:48 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ void	send_bit(int PID, char byte)
 	i = 8;
 	while (i-- > 0)
 	{
-		timeout = 500;
+		timeout = 50;
 		g_ack_received = 0;
 		if (((byte >> i) & 1) == 0)
 			kill(PID, SIGUSR1);
 		else if (((byte >> i) & 1) == 1)
-			kill(PID, SIGUSR2);
+			printf("client sent 1\n");
 		while (!g_ack_received && (timeout > 0))
 		{
-			usleep(100);
-			timeout -= 100;
+			usleep(50);
+			timeout -= 50;
 		}
 		if (timeout < 0)
 		{
@@ -79,7 +79,7 @@ int	main(int argc, char **argv)
 	if (pid <= 0)
 		return (ft_printf("PID error.\n"), 1);
 	sa.sa_handler = ft_signal_handler;
-	sa.sa_flags = 0;
+	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
