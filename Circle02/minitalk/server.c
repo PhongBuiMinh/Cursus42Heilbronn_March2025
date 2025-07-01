@@ -6,15 +6,13 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/06/16 17:41:21 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:04:39 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-volatile sig_atomic_t g_send_status = 0;
-
-void	ft_sig_handler(int sig, siginfo_t *info, void *context)
+void	sig_handler(int sig, siginfo_t *info, void *context)
 {
 	static char	byte = 0;
 	static int	bit_pos = 7;
@@ -24,39 +22,35 @@ void	ft_sig_handler(int sig, siginfo_t *info, void *context)
 		byte &= ~(1 << bit_pos);
 	else if (sig == SIGUSR2)
 		byte |= (1 << bit_pos);
-	bit_pos--;
-	if (bit_pos < 0)
+	if (--bit_pos < 0)
 	{
 		write(1, &byte, 1);
-		if (byte == '\0')
-			g_send_status = kill(info->si_pid, SIGUSR2);
-		else
-			g_send_status = kill(info->si_pid, SIGUSR1);
+		kill(info->si_pid, SIGUSR1);
 		byte = 0;
 		bit_pos = 7;
 	}
 }
 
-int	main(void)
+void	configure_signal(void)
 {
 	struct sigaction	sa;
 
-	ft_printf("%d\n", getpid());
-	sa.sa_sigaction = ft_sig_handler;
+	sa.sa_sigaction = sig_handler;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
 	if (sigaction(SIGUSR1, &sa, NULL) == -1
 		|| sigaction(SIGUSR2, &sa, NULL) == -1)
-		return (printf("Custom handler failed."), 1);
-	g_send_status = 0;
+		exit(1);
+}
+
+int	main(void)
+{
+	ft_printf("%d\n", getpid());
+	configure_signal();
 	while (1)
-	{
-		if (g_send_status == -1)
-			return (printf("Failed to send a signal"), 1);
 		pause();
-	}
 	return (0);
 }
 
