@@ -6,13 +6,13 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/07/02 18:01:21 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:33:55 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	decode_string(char byte)
+void	*decode_string(char byte)
 {
 	static char	*message = NULL;
 	static int	index = 0;
@@ -22,7 +22,7 @@ void	decode_string(char byte)
 	if (!message)
 		message = (char *)ft_calloc(str_size, sizeof(char));
 	if (!message)
-		return ;
+		return (NULL);
 	if (index < str_size)
 		message[index++] = byte;
 	if (byte == '\0' || index == str_size)
@@ -32,6 +32,7 @@ void	decode_string(char byte)
 		message = NULL;
 		index = 0;
 	}
+	return (message);
 }
 
 void	sig_handler(int sig, siginfo_t *info, void *context)
@@ -48,7 +49,10 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 	{
 		decode_string(byte);
 		if (kill(info->si_pid, SIGUSR1) == -1)
+		{
+			decode_string('\0');
 			ft_putstr_fd("Error: failed to send confirmation signal\n", 2);
+		}
 		byte = 0;
 		bit_pos = 7;
 	}
