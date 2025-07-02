@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/07/02 01:57:11 by phong            ###   ########.fr       */
+/*   Updated: 2025/07/02 17:56:57 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	send_bit(int pid, char byte)
 		}
 		usleep(50);
 	}
-	if (!g_ack_received)
-		exit(-3);
+	while (!g_ack_received)
+		pause();
 }
 
 void	configure_signal(void)

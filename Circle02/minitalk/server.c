@@ -3,15 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/07/02 01:57:51 by phong            ###   ########.fr       */
+/*   Updated: 2025/07/02 18:01:21 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+void	decode_string(char byte)
+{
+	static char	*message = NULL;
+	static int	index = 0;
+	int			str_size;
+
+	str_size = 500;
+	if (!message)
+		message = (char *)ft_calloc(str_size, sizeof(char));
+	if (!message)
+		return ;
+	if (index < str_size)
+		message[index++] = byte;
+	if (byte == '\0' || index == str_size)
+	{
+		ft_putstr_fd(message, 1);
+		free(message);
+		message = NULL;
+		index = 0;
+	}
+}
+
+void	sig_handler(int sig, siginfo_t *info, void *context)
+{
+	static char	byte = 0;
+	static int	bit_pos = 7;
+
+	(void)context;
+	if (sig == SIGUSR1)
+		byte &= ~(1 << bit_pos);
+	else if (sig == SIGUSR2)
+		byte |= (1 << bit_pos);
+	if (--bit_pos < 0)
+	{
+		decode_string(byte);
+		if (kill(info->si_pid, SIGUSR1) == -1)
+			ft_putstr_fd("Error: failed to send confirmation signal\n", 2);
+		byte = 0;
+		bit_pos = 7;
+	}
+}
+
+void	configure_signal(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_sigaction = sig_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1
+		|| sigaction(SIGUSR2, &sa, NULL) == -1)
+		exit(-1);
+}
+
+int	main(void)
+{
+	ft_printf("%d\n", getpid());
+	configure_signal();
+	while (1)
+		pause();
+	return (0);
+}
+
+// Version 2
 // void	decode_string(char byte)
 // {
 // 	static char	*message;
@@ -53,71 +119,16 @@
 // 	}
 // }
 
-char	*decode_string(char byte)
-{
-	static char	*message;
-	static int	str_size = 512;
-	static int	index = 0;
+// int main()
+// {
+// 	char *str;
+// 	int i = 0;
 
-	if (!message)
-		message = (char *)malloc((str_size * 2) * sizeof(char));
-	if (index > str_size)
-		message = realloc(message, str_size * 2);
-	if (!message)
-		return (NULL);
-	if (index <= str_size)
-		message[index++] = byte; // including '\0'
-	return (message);
-}
-
-void	sig_handler(int sig, siginfo_t *info, void *context)
-{
-	static char	byte = 0;
-	static int	bit_pos = 7;
-	char		*message;
-
-	(void)context;
-	if (sig == SIGUSR1)
-		byte &= ~(1 << bit_pos);
-	else if (sig == SIGUSR2)
-		byte |= (1 << bit_pos);
-	if (--bit_pos < 0)
-	{
-		message = decode_string(byte);
-		if (kill(info->si_pid, SIGUSR1) == -1 || !message)
-		{
-			free(message);
-			exit(-2);
-		}
-		if (byte == '\0')
-			ft_printf("%s\n", message);
-		byte = 0;
-		bit_pos = 7;
-	}
-}
-
-void	configure_signal(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_sigaction = sig_handler;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGUSR1);
-	sigaddset(&sa.sa_mask, SIGUSR2);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1
-		|| sigaction(SIGUSR2, &sa, NULL) == -1)
-		exit(-1);
-}
-
-int	main(void)
-{
-	ft_printf("%d\n", getpid());
-	configure_signal();
-	while (1)
-		pause();
-	return (0);
-}
+// 	str = malloc(4 * sizeof(char));
+// 	str = "abc";
+// 	while (i < 4)
+// 		printf("%i\n", str[i++]);
+// }
 
 // Version 1
 // void	signal_handler(int sig)
