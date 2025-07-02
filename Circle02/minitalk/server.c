@@ -3,19 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/07/01 20:04:39 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:57:51 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+// void	decode_string(char byte)
+// {
+// 	static char	*message;
+// 	static int	str_size = 512;
+// 	static int	index = 0;
+
+// 	if (!message)
+// 		message = (char *)malloc((str_size * 2) * sizeof(char));
+// 	if (index > str_size)
+// 		message = realloc(message, str_size * 2);
+// 	if (!message)
+// 		exit(1);
+// 	if (index <= str_size)
+// 		message[index++] = byte; // including '\0'
+// 	if (byte == '\0')
+// 	{
+// 		ft_printf("%s\n", message);
+// 		free(message);
+// 	}
+// }
+
+// void	sig_handler(int sig, siginfo_t *info, void *context)
+// {
+// 	static char	byte = 0;
+// 	static int	bit_pos = 7;
+
+// 	(void)context;
+// 	if (sig == SIGUSR1)
+// 		byte &= ~(1 << bit_pos);
+// 	else if (sig == SIGUSR2)
+// 		byte |= (1 << bit_pos);
+// 	if (--bit_pos < 0)
+// 	{
+// 		// write(1, &byte, 1);
+// 		decode_string(byte);
+// 		kill(info->si_pid, SIGUSR1);
+// 		byte = 0;
+// 		bit_pos = 7;
+// 	}
+// }
+
+char	*decode_string(char byte)
+{
+	static char	*message;
+	static int	str_size = 512;
+	static int	index = 0;
+
+	if (!message)
+		message = (char *)malloc((str_size * 2) * sizeof(char));
+	if (index > str_size)
+		message = realloc(message, str_size * 2);
+	if (!message)
+		return (NULL);
+	if (index <= str_size)
+		message[index++] = byte; // including '\0'
+	return (message);
+}
+
 void	sig_handler(int sig, siginfo_t *info, void *context)
 {
 	static char	byte = 0;
 	static int	bit_pos = 7;
+	char		*message;
 
 	(void)context;
 	if (sig == SIGUSR1)
@@ -24,8 +83,14 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 		byte |= (1 << bit_pos);
 	if (--bit_pos < 0)
 	{
-		write(1, &byte, 1);
-		kill(info->si_pid, SIGUSR1);
+		message = decode_string(byte);
+		if (kill(info->si_pid, SIGUSR1) == -1 || !message)
+		{
+			free(message);
+			exit(-2);
+		}
+		if (byte == '\0')
+			ft_printf("%s\n", message);
 		byte = 0;
 		bit_pos = 7;
 	}
@@ -42,7 +107,7 @@ void	configure_signal(void)
 	sigaddset(&sa.sa_mask, SIGUSR2);
 	if (sigaction(SIGUSR1, &sa, NULL) == -1
 		|| sigaction(SIGUSR2, &sa, NULL) == -1)
-		exit(1);
+		exit(-1);
 }
 
 int	main(void)

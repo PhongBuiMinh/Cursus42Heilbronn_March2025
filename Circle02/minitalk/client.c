@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phong <phong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/07/01 19:54:41 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:57:11 by phong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,19 @@ void	send_bit(int pid, char byte)
 	{
 		g_ack_received = 0;
 		if (((byte >> i) & 1) == 0)
-			kill(pid, SIGUSR1);
+		{
+			if (kill(pid, SIGUSR1) == -1)
+				exit(-2);
+		}
 		else if (((byte >> i) & 1) == 1)
-			kill(pid, SIGUSR2);
+		{
+			if (kill(pid, SIGUSR2) == -1)
+				exit(-2);
+		}
 		usleep(50);
 	}
 	if (!g_ack_received)
-		exit(2);
+		exit(-3);
 }
 
 void	configure_signal(void)
@@ -48,7 +54,7 @@ void	configure_signal(void)
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	if (sigaction(SIGUSR1, &sa, NULL) == -1
 		|| sigaction(SIGUSR2, &sa, NULL) == -1)
-		exit(1);
+		exit(-1);
 }
 
 int	main(int argc, char **argv)
