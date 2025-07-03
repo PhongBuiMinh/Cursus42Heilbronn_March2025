@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/07/02 19:00:45 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:16:51 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	send_bit(int pid, char byte)
 	}
 	usleep(600);
 	if (!g_ack_received)
-		ft_putstr_fd("Error: failed to get confirmation signal\n", 2);
+		ft_putstr_fd("Error: failed to receive confirmation signal\n", 2);
 }
 
 void	configure_signal(void)
