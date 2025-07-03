@@ -6,13 +6,13 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 19:00:29 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/07/03 15:26:37 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:48:06 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-volatile sig_atomic_t g_ack_received = 0;
+volatile sig_atomic_t	g_ack_received = 0;
 
 void	sig_handler(int sig)
 {
