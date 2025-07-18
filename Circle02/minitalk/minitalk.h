@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:33:08 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/06/11 20:33:50 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:19:35 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "libft.h"
-# include "ft_printf.h"
+# include "libft/libft.h"
+# include "printf/ft_printf.h"
 
 #endif
