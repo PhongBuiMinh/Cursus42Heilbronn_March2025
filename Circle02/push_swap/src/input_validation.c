@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_validation.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/27 13:31:29 by fbui-min          #+#    #+#             */
+/*   Updated: 2025/07/27 13:31:29 by fbui-min         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 bool	ps_atoi(const char *str, int *result)
@@ -22,7 +34,7 @@ bool	ps_atoi(const char *str, int *result)
 	while (str[i] >= 48 && str[i] <= 57)
 		num = (num * 10) + (str[i++] - 48);
 	if (str[i] != '\0' || (num > INT_MAX && sign == 1)
-			|| (num < INT_MIN && sign == -1))
+		|| (num < INT_MIN && sign == -1))
 		return (false);
 	*result = num * sign;
 	return (true);
