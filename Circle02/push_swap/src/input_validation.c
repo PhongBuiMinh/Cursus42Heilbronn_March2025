@@ -1,0 +1,61 @@
+#include "push_swap.h"
+
+bool	ps_atoi(const char *str, int *result)
+{
+	long	num;
+	int		sign;
+	int		i;
+
+	sign = 1;
+	num = 0;
+	i = 0;
+	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i + 1] == '-')
+			return (false);
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= 48 && str[i] <= 57)
+		num = (num * 10) + (str[i++] - 48);
+	if (str[i] != '\0' || (num > INT_MAX && sign == 1)
+			|| (num < INT_MIN && sign == -1))
+		return (false);
+	*result = num * sign;
+	return (true);
+}
+
+bool	has_duplicate(t_stack *root, int num)
+{
+	t_stack	*current;
+
+	current = root;
+	while (current)
+	{
+		if (current->num == num)
+			return (true);
+		current = current->next;
+	}
+	return (false);
+}
+
+void	process_input(t_stack **stack_a, int argc, char **argv)
+{
+	int	num;
+
+	if (argc <= 1)
+		print_error(1);
+	while (--argc > 0)
+	{
+		if (!ps_atoi(argv[argc], &num)
+			|| has_duplicate(*stack_a, num))
+		{
+			free_stack(stack_a);
+			print_error(2);
+		}
+		insert_node(stack_a, num);
+	}
+}

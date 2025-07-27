@@ -35,7 +35,7 @@ bonus: $(NAME_BONUS)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
-	make -C libft
+	make bonus -C libft
 
 $(PRINTF):
 	make -C printf
