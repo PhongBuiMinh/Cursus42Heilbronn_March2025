@@ -16,16 +16,14 @@ void	decode_string(char byte)
 {
 	static char	*message = NULL;
 	static int	index = 0;
-	int			str_size;
 
-	str_size = 500;
 	if (!message)
-		message = (char *)ft_calloc(str_size, sizeof(char));
+		message = (char *)ft_calloc(CHUNK_SIZE, sizeof(char));
 	if (!message)
 		return ;
-	if (index < str_size)
+	if (index < CHUNK_SIZE)
 		message[index++] = byte;
-	if (byte == '\0' || index == str_size)
+	if (byte == '\0' || index == CHUNK_SIZE)
 	{
 		ft_putstr_fd(message, 1);
 		free(message);
