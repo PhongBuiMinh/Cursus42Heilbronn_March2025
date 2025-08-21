@@ -14,8 +14,8 @@
 # define PUSH_SWAP_H
 
 # include <stdio.h>
-# include "../libft/libft.h"
-# include "../printf/ft_printf.h"
+# include "../lib/libft/libft.h"
+# include "../lib/printf/ft_printf.h"
 # include <limits.h>
 
 typedef struct s_stack
@@ -30,13 +30,14 @@ t_stack		*create_node(int num);
 void		insert_node(t_stack **root, int num);
 t_stack		*last_node(t_stack *stack);
 void		free_stack(t_stack **lst);
-int			count_nodes(t_stack *stack);
+int			count_three_nodes(t_stack *stack);
 int			find_max(t_stack *stack_a);
 int			find_min(t_stack *stack);
-int			stack_size(t_stack *stack);
+int			find_min_pos(t_stack *stack);
+int			count_stack(t_stack *stack);
 
 // stack commands
-void		pa(t_stack **a, t_stack **b);
+void		pa(t_stack **b, t_stack **a);
 void		pb(t_stack **a, t_stack **b);
 void		sa(t_stack **a);
 void		sb(t_stack **b);

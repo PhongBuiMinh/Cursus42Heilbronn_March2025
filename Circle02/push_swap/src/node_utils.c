@@ -12,23 +12,14 @@
 
 #include "push_swap.h"
 
-t_stack	*last_node(t_stack *stack)
-{
-	if (!stack)
-		return (NULL);
-	while (stack->next)
-		stack = stack->next;
-	return (stack);
-}
-
-int	count_nodes(t_stack *stack)
+int	count_three_nodes(t_stack *stack)
 {
 	size_t	elements;
 
 	if (!stack)
 		return (0);
 	elements = 0;
-	while (stack && elements < 5)
+	while (stack && elements < 3)
 	{
 		elements++;
 		stack = stack->next;
@@ -36,7 +27,7 @@ int	count_nodes(t_stack *stack)
 	return (elements);
 }
 
-int	stack_size(t_stack *stack)
+int	count_stack(t_stack *stack)
 {
 	size_t	elements;
 
@@ -49,6 +40,28 @@ int	stack_size(t_stack *stack)
 		stack = stack->next;
 	}
 	return (elements);
+}
+
+int	find_min_pos(t_stack *stack)
+{
+	int	current_pos;
+	int	min_pos;
+	int	min;
+
+	current_pos = 0;
+	min_pos = 0;
+	min = stack->num;
+	while (stack)
+	{
+		if (stack->num < min)
+		{
+			min = stack->num;
+			min_pos = current_pos;
+		}
+		current_pos++;
+		stack = stack->next;
+	}
+	return (min_pos);
 }
 
 int	find_min(t_stack *stack)

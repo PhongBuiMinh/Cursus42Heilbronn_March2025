@@ -24,7 +24,7 @@ void	push(t_stack **src, t_stack **dst)
 	*dst = node_to_push;
 	}
 
-void	pa(t_stack **a, t_stack **b)
+void	pa(t_stack **b, t_stack **a)
 {
 	push(b, a);
 }

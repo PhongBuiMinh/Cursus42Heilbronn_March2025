@@ -44,29 +44,62 @@ void	sort_three(t_stack **stack_a)
 	sa(stack_a);
 }
 
-void	push_two_unchecked(t_stack **stack_a, t_stack **stack_b)
+// typedef struct	s_cheapest {
+// 	int	num;
+// 	int	total_ops;
+// 	int	move_id; // 0:ra+rb, 1:rra+rrb, 2:ra+rrb, 3:rra+rb
+// } t_cheapest;
+
+// void	find_cheapest_move()
+// {
+// 	// iretate through the list to find the best candidate
+// 		// get the cheapest operation type out of 4
+// }
+
+int	get_median(t_stack *stack, int size)
 {
-	if (count_nodes(*stack_a) != 3)
-		pb(stack_a, stack_b);
-	if (count_nodes(*stack_a) != 3)
-		pb(stack_a, stack_b);
+	t_stack	*current;
+	t_stack	*runner;
+	int		count_smaller;
+
+	current = stack;
+	while (current)
+	{
+		runner = stack;
+		count_smaller = 0;
+		while (runner)
+		{
+			if (runner->num < current->num)
+				count_smaller++;
+			runner = runner->next;
+		}
+		if (count_smaller == (size - 1) / 2)
+			return (current->num);
+		current = current->next;
+	}
+	return (0);
 }
 
-typedef struct	s_cheapest {
-	int	num;
-	int	total_ops;
-	int	move_id;  // 0:ra+rb, 1:rra+rrb, 2:ra+rrb, 3:rra+rb
-} t_cheapest;
-
-void	pb_until_three(t_stack **stack_a, t_stack **stack_b)
+void	rotate_min_to_top(t_stack **stack, void (*r)(t_stack **), void (*rr)(t_stack **))
 {
-	t_stack		*tmp;
-	t_cheapest	*candidate;
+	int	min_pos;
+	int	size;
+	int	i;
 
-	while (count_nodes(stack_a) != 3)
+	if (!stack || !*stack || !(*stack)->next)
+		return ;
+	min_pos = find_min_pos(*stack);
+	size = count_stack(*stack);
+	i = 0;
+	if (min_pos <= size / 2)
 	{
-		find_cheapest_move();
-
+		while (i++ < min_pos)
+			r(stack);
+	}
+	else
+	{
+		while (i++ < size - min_pos)
+			rr(stack);
 	}
 }
 
@@ -74,24 +107,28 @@ void	sort_stack(t_stack **stack_a)
 {
 	t_stack	*stack_b;
 	int		nodes;
+	int		median;
 
 	(void)stack_b;
 	stack_b = NULL;
 	if (!*stack_a || !stack_a)
 		return ;
-	nodes = count_nodes(*stack_a);
+	nodes = count_stack(*stack_a);
 	if (nodes == 2)
 		ra(stack_a);
 	else
 	{
-		// 1. push 2 numbers to b without checks
-		push_two_unchecked(stack_a, &stack_b);
-		// 2. find the lowest cost(cheapest number) to push next
-		pb_until_three(stack_a, &stack_b);
-		// 3. handle last three elements
+		median = get_median(*stack_a, nodes);
+		printf("%d\n", median);
+		while (count_three_nodes(*stack_a) != 3)
+		{
+			pb(stack_a, &stack_b);
+			if (stack_b->num > median)
+				rb(&stack_b);
+		}
 		sort_three(stack_a);
 		// 4. push back to a
-		// 5. final arrangement
+		rotate_min_to_top(stack_a, ra, rra);
 	}
 }
 

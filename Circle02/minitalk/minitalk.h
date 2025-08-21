@@ -12,7 +12,7 @@
 
 #ifndef MINITALK_H
 # define MINITALK_H
-# ifdef CHUNK_SIZE
+# ifndef CHUNK_SIZE
 #  define CHUNK_SIZE 500
 # endif
 
