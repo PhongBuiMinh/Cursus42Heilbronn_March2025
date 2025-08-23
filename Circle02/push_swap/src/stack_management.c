@@ -53,12 +53,3 @@ void	insert_node(t_stack **root, int num)
 	new_node->next = *root;
 	*root = new_node;
 }
-
-t_stack	*last_node(t_stack *stack)
-{
-	if (!stack)
-		return (NULL);
-	while (stack->next)
-		stack = stack->next;
-	return (stack);
-}

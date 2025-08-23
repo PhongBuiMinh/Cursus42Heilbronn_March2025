@@ -22,14 +22,16 @@ void	push(t_stack **src, t_stack **dst)
 	*src = node_to_push->next;
 	node_to_push->next = *dst;
 	*dst = node_to_push;
-	}
+}
 
 void	pa(t_stack **b, t_stack **a)
 {
 	push(b, a);
+	ft_putstr_fd("pa\n", 1);
 }
 
 void	pb(t_stack **a, t_stack **b)
 {
 	push(a, b);
+	ft_putstr_fd("pb\n", 1);
 }

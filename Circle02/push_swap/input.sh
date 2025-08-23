@@ -1,5 +1,8 @@
 #!/bin/bash
 
+ARG="4 67 3 87 23"
+./push_swap $ARG | wc -l | ./tests/checker_Mac $ARG
+
 # ./push_swap "$@"
 # ARG="1 2"
 # ./push_swap $ARG
@@ -7,7 +10,7 @@
 # STR="AAA BBB CCC"
 # ./push_swap "$STR"
 
-case $1 in
+# case $1 in
 #   1)
 # 	args="3 2 1"
 # 	;;
@@ -27,36 +30,36 @@ case $1 in
 # 	args="2 1 3"
 # 	;;
 
-  2)
-	args="2 1"
-	;;
-  3)
-	args="3 2 5"
-	;;
-  4)
-	args="3 2 5 6"
-	;;
-  5)
-	args="1 5 2 4 3"
-	;;
-  6.0)
-	args="5 3 4 2 1"
-	;;
-  6.1)
-	args="3 5 4 2 1"
-	;;
-  6.2)
-	args="3 5 0 2 1"
-	;;
-  10)
-	args="1 5 -4 6 12 53 0 2 4 3"
-	;;
-esac
+#   2)
+# 	args="2 1"
+# 	;;
+#   3)
+# 	args="3 2 5"
+# 	;;
+#   4)
+# 	args="3 2 5 6"
+# 	;;
+#   5)
+# 	args="1 5 2 4 3"
+# 	;;
+#   6.0)
+# 	args="5 3 4 2 1"
+# 	;;
+#   6.1)
+# 	args="3 5 4 2 1"
+# 	;;
+#   6.2)
+# 	args="3 5 0 2 1"
+# 	;;
+#   10)
+# 	args="1 5 -4 6 12 53 0 2 4 3"
+# 	;;
+# esac
 
-echo -e "\n======= Push_Swap Tester ======="
-echo -e "Passing set of numbers: $args"
-echo -e "\n======= Push_Swap output ======="
-./push_swap $args # | ./checker $args
+# echo -e "\n======= Push_Swap Tester ======="
+# echo -e "Passing set of numbers: $args"
+# echo -e "\n======= Push_Swap output ======="
+# ./push_swap $args # | ./checker $args
 
 # #!/bin/bash
 

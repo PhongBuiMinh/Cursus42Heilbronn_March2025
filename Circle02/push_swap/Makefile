@@ -16,10 +16,11 @@ NAME = push_swap
 
 SRC_DIR = src
 SRC = push_swap.c \
-		input_validation.c \
-		monitor.c \
-		node_management.c node_utils.c \
-		push_ops.c swap_ops.c rotate_ops.c reverse_rotate_ops.c
+		input_validation.c input_processing.c \
+		monitoring.c \
+		algorithm.c algorithm_utils.c \
+		stack_management.c stack_utils.c stack_searching.c \
+		push_ops.c swap_ops.c rotate_ops.c reverse_rotate_ops.c advanced_rotation.c
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
@@ -30,7 +31,7 @@ PRINTF = printf/printf.a
 all: $(NAME)
 
 $(LIBFT):
-	@make -C lib/libft
+	@make bonus -C lib/libft
 
 $(PRINTF):
 	@make -C lib/printf

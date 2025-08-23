@@ -35,5 +35,4 @@ void	display_stack(t_stack *stack, char *message)
 		ft_putchar_fd('\n', 1);
 		stack = stack->next;
 	}
-	ft_putchar_fd('\n', 1);
 }
