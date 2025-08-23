@@ -14,9 +14,9 @@
 # define PUSH_SWAP_H
 
 # include <stdio.h>
+# include <limits.h>
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"
-# include <limits.h>
 
 typedef struct s_stack
 {
@@ -25,16 +25,32 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
+typedef struct s_cost_cal
+{
+	int	current_cost;
+	int	lowest_cost;
+	int	ca;
+	int	cb;
+} t_cost_cal;
+
+typedef struct s_stack_info
+{
+	int	i;
+	int	ins;
+	int	size_a;
+	int	size_b;
+} t_stack_info;
+
 // linked_list
 t_stack		*create_node(int num);
+void		free_stack(t_stack **lst);
 void		insert_node(t_stack **root, int num);
 t_stack		*last_node(t_stack *stack);
-void		free_stack(t_stack **lst);
+int			count_stack(t_stack *stack);
 int			count_three_nodes(t_stack *stack);
 int			find_max(t_stack *stack_a);
 int			find_min(t_stack *stack);
 int			find_min_pos(t_stack *stack);
-int			count_stack(t_stack *stack);
 
 // stack commands
 void		pa(t_stack **b, t_stack **a);

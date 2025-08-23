@@ -15,7 +15,9 @@ FLAGS = -Wall -Wextra -Werror -g
 NAME = push_swap
 
 SRC_DIR = src
-SRC = push_swap.c input_validation.c monitor.c \
+SRC = push_swap.c \
+		input_validation.c \
+		monitor.c \
 		node_management.c node_utils.c \
 		push_ops.c swap_ops.c rotate_ops.c reverse_rotate_ops.c
 OBJ_DIR = obj

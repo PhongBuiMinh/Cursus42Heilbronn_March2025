@@ -113,9 +113,6 @@ Overall Strategy
 This function implements an optimized transfer algorithm that minimizes the number of operations by:
 
 Choosing the most efficient element to transfer next
-
 Combining rotations when possible
-
 Preparing both stacks before each transfer
-
 Ensuring elements are placed in optimal positions in the destination stack
