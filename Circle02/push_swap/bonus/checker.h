@@ -10,28 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#ifndef CHECKER_H
+# define CHECKER_H
 
-int	main(int argc, char **argv)
-{
-	t_stack	*a;
+# include "../includes/push_swap.h"
+# include "../lib/libft/libft.h"
+# include "../lib/printf/ft_printf.h"
 
-	a = NULL;
-	process_input(&a, argc, argv);
-	if (!is_stack_sorted(a))
-		sort_stack(&a);
-	free_stack(&a);
-}
 
-// int	main(int argc, char **argv)
-// {
-// 	t_stack	*a;
-
-// 	a = NULL;
-// 	process_input(&a, argc, argv);
-// 	display_stack(a, "Stack before sorting");
-// 	if (!is_stack_sorted(a))
-// 		sort_stack(&a);
-// 	display_stack(a, "Stack after sorting");
-// 	free_stack(&a);
-// }
+#endif
