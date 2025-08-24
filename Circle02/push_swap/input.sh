@@ -4,6 +4,7 @@ OS=$(uname)
 NAME=./push_swap
 MIN=-300
 MAX=300
+PATH_TO_DOCKER=../../../github_docker
 
 chmod +x input.sh $NAME
 
@@ -15,20 +16,31 @@ elif [ "$OS" == "Windows" ]; then
 	CHECKER=checker_linux
 fi
 
+if [ -z "$1" ] || [ "$1" == "None" ]; then
+	echo -e "User: $0 [N-arguments] [valgrind/empty]"
+	$NAME $ARG
+	exit 2
+fi
+
 ARG=$(seq $MIN $MAX | $RANDOMIZER | head -n $1 | paste -sd' ' -)
 
 echo -e "\n======= Push_Swap Tester =======\n"
 
-echo -e "File information"
+echo -e "Providing program/file information"
 file $NAME
 
-echo -e "\nPassing set of $1 numbers\n $ARG"
+echo -e "\nPassing set of $1 numbers:\n $ARG"
 
-echo -e "\nCounting required operations..."
+echo -e "\nComputing amount of operations"
 $NAME $ARG | wc -l | tr -d ' '
 
 echo -e "\nTesting with checker program"
 $NAME $ARG | ./tests/$CHECKER $ARG
+
+if [ "$2" == "valgrind" ]; then
+	echo -e "\nRunning valgrind tester"
+	cd $PATH_TO_DOCKER && make && make valgrind
+fi
 
 # case $1 in
 #   5)
