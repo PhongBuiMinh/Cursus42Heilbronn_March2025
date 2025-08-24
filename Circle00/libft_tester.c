@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   libft_tester.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:00:59 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/03/26 15:10:01 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:13:45 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "./libft/libft.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
@@ -113,7 +113,7 @@ int	main(void)
 	} else {
 		printf("'%s' not found in the first 20 characters.\n", needle);
 	}
-	
+
 
 	char str1[] = "Hello";
     char str2[] = "Hello";
@@ -126,24 +126,24 @@ int	main(void)
     else
         printf("The first 5 characters are different.\n");
 	*/
-	
+
 	/*
 	char	*s1 = NULL;
 
 	ft_memchr(s1, 'a', 2);
 	printf("%s\n", s1);
-	
+
 	char str[] = "Hello";
 	printf("Size of str: %zu\n", sizeof(str));
 	*/
-	
+
 	/*
 	char	str1[20] = "abcde";
 
 	ft_memmove(str1 + 2, str1, 1);
 	printf("%s", str1);
 	*/
-	
+
 	/*
 	char *str1 = "Hello world!";
 	char *str2 = str1 + 5;
@@ -162,7 +162,7 @@ int	main(void)
 	if (myPtr != NULL)
 		printf("%s", myPtr);
 	*/
-	
+
 	/*
 	size_t	i;
 
@@ -219,7 +219,7 @@ int	main(void)
 	char *myPtr = ft_strchr(myStr, 'l');
 	if (myPtr != NULL)
 		printf("%s", myPtr);
-	
+
 	int		l;
 	int		count;
 	int		countoriginal;
