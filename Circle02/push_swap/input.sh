@@ -5,7 +5,7 @@ NAME=./push_swap
 MIN=-300
 MAX=300
 
-chmod 777 input.sh $NAME
+chmod +x input.sh $NAME
 
 if [ "$OS" == "Darwin" ]; then
 	RANDOMIZER="sort -R"
@@ -22,9 +22,9 @@ echo -e "\n======= Push_Swap Tester =======\n"
 echo -e "File information"
 file $NAME
 
-echo -e "\nPassing set of $1 numbers: $ARG"
+echo -e "\nPassing set of $1 numbers\n $ARG"
 
-echo -e "\nCounting required operations"
+echo -e "\nCounting required operations..."
 $NAME $ARG | wc -l | tr -d ' '
 
 echo -e "\nTesting with checker program"

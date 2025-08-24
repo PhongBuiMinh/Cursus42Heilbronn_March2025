@@ -1,1 +1,0 @@
-tar -czvf archive_name.tar.gz ft_*.c libft.h Makefile
