@@ -12,19 +12,19 @@
 
 #include "push_swap.h"
 
-bool	has_three_nodes(t_stack *stack)
+bool	has_n_nodes(t_stack *stack, int n)
 {
-	size_t	size;
+	int	size;
 
 	if (!stack)
 		return (false);
 	size = 0;
-	while (stack && size < 4)
+	while (stack && size < n + 1)
 	{
 		size++;
 		stack = stack->next;
 	}
-	if (size != 3)
+	if (size != n)
 		return (false);
 	return (true);
 }

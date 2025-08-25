@@ -23,7 +23,6 @@ void	display_stack(t_stack *stack, char *message)
 	if (!stack)
 		return ;
 	ft_putstr_fd(message, 1);
-	ft_putchar_fd('\n', 1);
 	while (stack)
 	{
 		ft_putnbr_fd(stack->num, 1);

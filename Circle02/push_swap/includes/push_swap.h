@@ -48,7 +48,7 @@ void		insert_node(t_stack **root, int num);
 
 t_stack		*last_node(t_stack *stack);
 int			count_stack(t_stack *stack);
-bool		has_three_nodes(t_stack *stack);
+bool		has_n_nodes(t_stack *stack, int n);
 
 int			find_max(t_stack *stack);
 int			find_min(t_stack *stack);
