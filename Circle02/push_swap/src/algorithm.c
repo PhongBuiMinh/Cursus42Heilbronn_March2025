@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 13:31:43 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/08/25 05:52:58 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/08/25 06:15:48 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	sort_stack(t_stack **a)
 		while (!has_n_nodes(*a, 3))
 		{
 			pb(a, &b);
-			if (b->num > median && has_n_nodes(*a, 2))
+			if (b->num > median && has_n_nodes(b, 2))
 				rb(&b);
 		}
 		sort_three(a);
