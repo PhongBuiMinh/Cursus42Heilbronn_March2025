@@ -1,9 +1,16 @@
-#include "../lib/minilibx-linux/mlx.h"
-#include "../lib/libft/libft.h"
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fractol.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/01 16:04:34 by fbui-min          #+#    #+#             */
+/*   Updated: 2025/09/01 16:04:34 by fbui-min         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#define WIDTH 1400
-#define HEIGHT 700
+#include "fractol.h"
 
 int	ft_strcasecmp(char *s1, char *s2)
 {
@@ -36,13 +43,6 @@ int	input_validation(int argc, char **argv)
 		return (1);
 	return (-1);
 }
-#define MAX_ITER 1000
-
-typedef struct s_complex
-{
-	double	r;
-	double	i;
-}	t_complex;
 
 void	render_fractal_image(void)
 {
