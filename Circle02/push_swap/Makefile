@@ -25,8 +25,8 @@ OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 # Libraries
-LIBFT = libft/libft.a
-PRINTF = printf/printf.a
+LIBFT = lib/libft/libft.a
+PRINTF = lib/printf/printf.a
 
 all: $(NAME)
 

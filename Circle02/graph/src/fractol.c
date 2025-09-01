@@ -37,9 +37,9 @@ int	input_validation(int argc, char **argv)
 {
 	if (argc != 2)
 		print_error(1);
-	if (ft_strcasecmp(argv[1], "julia") == 0)
+	if (!ft_strcasecmp(argv[1], "julia"))
 		return (0);
-	else if (ft_strcasecmp(argv[1], "mandelbrot") == 0)
+	else if (ft_strcasecmp(argv[1], "mandelbrot"))
 		return (1);
 	return (-1);
 }

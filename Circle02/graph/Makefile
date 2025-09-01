@@ -10,50 +10,71 @@
 #                                                                              #
 # **************************************************************************** #
 
+GREEN = \033[0;32m
+RED = \033[0;31m
+DEFAULT = \033[0m
+
 NAME = fractol
 CC = gcc
 FLAG = -Wall -Wextra -Werror -g
 
+OS_TYPE := $(shell uname -s)
+ifeq ($(OS_TYPE),Darwin)
+	MLX_PATH = lib/minilibx-macos
+	MLX_TAR = minilibx_macos_opengl.tgz
+	MLX_FLAG = -framework OpenGL -framework AppKit
+else ifeq ($(OS_TYPE),Linux)
+	MLX_PATH = lib/minilibx-linux
+	MLX_TAR = minilibx-linux.tgz
+	MLX_FLAG = -lXext -lX11 -lm -lz
+endif
+
+# Libraries
+LIBFT = lib/libft/libft.a
+MLX = $(MLX_PATH)/libmlx.a
+
+# RECOURSE
 SRC_DIR = src
 SRC = fractol.c
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
-# Libraries
-LIBFT = libft.a
-MLX = libmlx.a
-
 all: $(NAME)
 
 $(LIBFT):
+	@echo "$(GREEN)Building libft library...$(DEFAULT)"
 	@make -C lib/libft
 
 $(MLX):
-	@tar -xvzf minilibx_macos_opengl.tgz -C lib && mv lib/minilibx_opengl_20191021 lib/minilibx-macos
-	@make -C lib/minilibx-macos
-# tar -xvzf minilibx-linux.tgz -C lib
-# make -C lib/minilibx-linux
+	@echo "$(GREEN)Building mlx library...$(DEFAULT)"
+	@tar -xvzf $(MLX_TAR) -C lib
+ifeq ($(OS_TYPE),Darwin)
+	mv lib/minilibx_opengl_20191021 $(MLX_PATH)
+endif
+	@make -C $(MLX_PATH)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@echo "$(GREEN)Compling source files...$(DEFAULT)"
 	@$(CC) $(FLAG) -Iinclude -Ilib/libft -Ilib/minilibx-macos -c $< -o $@
-# $(CC) $(FLAG) -Ilib/libft -Ilib/minilibx-linux -c $< -o $@
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)
-	@$(CC) $(FLAG) $(OBJ) -Llib/libft -lft -Llib/minilibx-macos -lmlx -framework OpenGL -framework AppKit -o $@
-# $(CC) $(FLAG) $(OBJ) -Llib/libft -lft -Llib/minilibx-linux -lmlx -lXext -lX11 -lm -lz -o $@
+	@echo "$(GREEN)Linking files...$(DEFAULT)"
+	@$(CC) $(FLAG) $(OBJ) -Llib/libft -lft -L$(MLX_PATH) -lmlx $(MLX_FLAG) -o $@
 
 clean:
+	@echo "$(RED)Removing object files...$(DEFAULT)"
 	@make clean -C lib/libft
 	@rm -rf $(OBJ_DIR)
-	@make clean -C lib/minilibx-macos
-# make clean -C lib/minilibx-linux
+	@make clean -C $(MLX_PATH)
 
 fclean: clean
+	@echo "$(RED)Removing program and libraries...$(DEFAULT)"
 	@rm -f $(NAME)
 	@make fclean -C lib/libft
-	@cd lib && rm -rf minilibx-macos
-# cd lib && rm -rf minilibx-linux
+	@rm -rf $(MLX_PATH)
 
+# wget https://cdn.intra.42.fr/document/document/37672/minilibx_macos_metal.tgz -O minilibx-linux.tgz
+# curl -o minilibx-linux.tgz https://cdn.intra.42.fr/document/document/37672/minilibx_macos_metal.tgz
