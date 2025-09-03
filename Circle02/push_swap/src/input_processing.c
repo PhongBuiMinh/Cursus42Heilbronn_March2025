@@ -51,8 +51,8 @@ void	process_input(t_stack **stack, int argc, char **argv)
 {
 	char	**arr;
 
-	if (argc <= 1)
-		print_error(1);
+	if (argc == 1)
+		exit(0);
 	if (argc == 2)
 		arr = ft_split(argv[1], ' ');
 	else

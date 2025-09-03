@@ -88,7 +88,7 @@ void	sort_stack(t_stack **a)
 		while (!has_n_nodes(*a, 3))
 		{
 			pb(a, &b);
-			if (b->num > median && has_n_nodes(b, 2))
+			if (b->num > median && !has_n_nodes(b, 2))
 				rb(&b);
 		}
 		sort_three(a);

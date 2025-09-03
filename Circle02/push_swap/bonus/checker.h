@@ -17,5 +17,4 @@
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"
 
-
 #endif
