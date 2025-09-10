@@ -36,7 +36,9 @@ MLX = $(MLX_PATH)/libmlx.a
 
 # RECOURSE
 SRC_DIR = src
-SRC = fractol.c init.c
+SRC = fractol.c \
+		init.c input_output.c \
+		hook_handler.c compute_fractal.c
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
