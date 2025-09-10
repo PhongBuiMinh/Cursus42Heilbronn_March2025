@@ -10,6 +10,13 @@ typedef struct s_complex
 	double	i;
 }	t_complex;
 
+// z.x = ((double)x / render.width - 0.5) * 3.0;
+// z.y = ((double)y / render.height - 0.5) * 3.0;
+// z.x = -1.5 + x * (3.0 / render.width); // mapped_x
+// z.y = -1.5 + y * (3.0 / render.height); // mapped_y
+// z.x = ((double)x / render.width - 0.5) * (3.0 / f.zoom) + f.offset_x;
+// z.y = ((double)y / render.height - 0.5) * (3.0 / f.zoom) + f.offset_y;
+
 int	main(void)
 {
 	t_complex	z;
@@ -55,6 +62,13 @@ int	main(void)
 	}
 }
 
+// mlx_pixel_put(mlx, win, 10, 10, 0x00FF00);
+// mlx_string_put(mlx, win, 100, 100, 0x00FF00, "Hello world");
+
+// Zn+1 = Z^2 + C
+// Z0 = 0
+// n ->
+
 //🧠 Fractal Rendering Logic
 // 1. Map each pixel to a complex number C
 // 	The screen is a 2D grid of pixels.
@@ -73,3 +87,16 @@ int	main(void)
 // 	Fewer iterations = faster escape = brighter color
 // 	More iterations = slower escape = darker color
 // 	If it never escapes, color it black (or deep blue, etc.)
+
+// 🧠 What Is Scaling in Fractals?
+// You're drawing pixels on a screen (like 800×600), but the Mandelbrot set lives in a mathematical space — specifically, the complex plane from about −2 to +1 on the real axis, and −1.5 to +1.5 on the imaginary axis.
+// So you need to map each pixel (x, y) to a complex number (r, i) in that space.
+
+// 🔁 Mandelbrot vs Julia: Key Difference
+// Mandelbrot Set: Each pixel maps to a complex number c, and you iterate z = z² + c starting from z = 0.
+// Julia Set: You fix a complex number c (the parameter that defines the shape of the Julia set), and each pixel maps to an initial z, then you iterate z = z² + c.
+
+// 🔍 Breakdown:
+// x / render.width gives you a value from 0.0 to 1.0
+// Subtracting 0.5 shifts that range to −0.5 to +0.5
+// Multiplying by 3.0 stretches it to −1.5 to +1.5

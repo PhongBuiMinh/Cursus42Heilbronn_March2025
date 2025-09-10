@@ -28,6 +28,7 @@ else ifeq ($(OS_TYPE),Linux)
 	MLX_TAR = minilibx-linux.tgz
 	MLX_FLAG = -lXext -lX11 -lm -lz
 endif
+LIBFT_PATH = lib/libft
 
 # Libraries
 LIBFT = lib/libft/libft.a
@@ -35,7 +36,7 @@ MLX = $(MLX_PATH)/libmlx.a
 
 # RECOURSE
 SRC_DIR = src
-SRC = fractol.c
+SRC = fractol.c init.c
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
@@ -56,25 +57,25 @@ endif
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c include/fractol.h | $(OBJ_DIR)
 	@echo "$(GREEN)Compling source files...$(DEFAULT)"
-	@$(CC) $(FLAG) -Iinclude -Ilib/libft -Ilib/minilibx-macos -c $< -o $@
+	@$(CC) $(FLAG) -Iinclude -I$(LIBFT_PATH) -I$(MLX_PATH) -c $< -o $@
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)
 	@echo "$(GREEN)Linking files...$(DEFAULT)"
-	@$(CC) $(FLAG) $(OBJ) -Llib/libft -lft -L$(MLX_PATH) -lmlx $(MLX_FLAG) -o $@
+	@$(CC) $(FLAG) $(OBJ) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx $(MLX_FLAG) -o $@
 
 clean:
 	@echo "$(RED)Removing object files...$(DEFAULT)"
-	@make clean -C lib/libft
 	@rm -rf $(OBJ_DIR)
 	@make clean -C $(MLX_PATH)
+	@make clean -C $(LIBFT_PATH)
 
 fclean: clean
 	@echo "$(RED)Removing program and libraries...$(DEFAULT)"
 	@rm -f $(NAME)
-	@make fclean -C lib/libft
 	@rm -rf $(MLX_PATH)
+	@make fclean -C $(LIBFT_PATH)
 
 # wget https://cdn.intra.42.fr/document/document/37672/minilibx_macos_metal.tgz -O minilibx-linux.tgz
 # curl -o minilibx-linux.tgz https://cdn.intra.42.fr/document/document/37672/minilibx_macos_metal.tgz
