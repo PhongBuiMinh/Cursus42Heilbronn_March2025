@@ -28,7 +28,7 @@ int	ft_strcasecmp(char *s1, char *s2)
 		s1++;
 		s2++;
 	}
-	return (unsigned char)*s1 - (unsigned char)*s2;
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
 int	preprocess_atof(const char *str, int i, int *sign)

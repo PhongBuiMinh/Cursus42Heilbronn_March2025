@@ -19,7 +19,7 @@ void	print_error(int error_type)
 	if (error_type == 1)
 		ft_putstr_fd("Usage: ./fractol fractal\n", 2);
 	if (error_type == 2)
-		ft_putstr_fd("Error\n", 2);
+		ft_putstr_fd("Invalid arguments\n", 2);
 	exit(error_type);
 }
 
@@ -36,10 +36,7 @@ bool	ft_atof(const char *str, double *res)
 	if (i == -1)
 		return (false);
 	while (str[i] >= '0' && str[i] <= '9')
-	{
-		*res = (*res * 10) + (str[i] - '0');
-		i++;
-	}
+		*res = (*res * 10) + (str[i++] - '0');
 	if (str[i] == '.')
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
@@ -49,6 +46,8 @@ bool	ft_atof(const char *str, double *res)
 		i++;
 	}
 	*res *= sign;
+	if (*res < -2.5 || *res > 2)
+		return (false);
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:34:27 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/09/01 16:37:27 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:16:09 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 // #include "../lib/minilibx-linux/mlx.h"
 
 // WINDOW
-# define WIDTH 600
-# define HEIGHT 500
-# define MAX_ITER 250
+# define WIDTH 350
+# define HEIGHT 250
+# define MAX_ITER 100
 
 // KEYCODE
 # define R 114
@@ -44,13 +44,20 @@
 # define UP_ARROW 65362
 # define DOWN_ARROW 65364
 
-typedef struct	s_complex
+typedef struct s_complex
 {
 	double	x;
 	double	y;
 }	t_complex;
 
-typedef struct	s_render
+typedef struct s_rgb
+{
+	int	red;
+	int	green;
+	int	blue;
+}	t_rgb;
+
+typedef struct s_render
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -58,7 +65,7 @@ typedef struct	s_render
 	int		height;
 }	t_render;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*ptr;
 	char	*data;
@@ -67,7 +74,7 @@ typedef struct	s_img
 	int		endian;
 }	t_img;
 
-typedef struct	s_fractal
+typedef struct s_fractal
 {
 	double		zoom;
 	double		offset_x;
@@ -77,7 +84,7 @@ typedef struct	s_fractal
 	t_complex	c;
 }	t_fractal;
 
-typedef struct	s_context
+typedef struct s_context
 {
 	t_render	rd;
 	t_img		im;

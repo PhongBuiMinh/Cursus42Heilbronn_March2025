@@ -18,11 +18,11 @@ void	init_render(t_context *ctx)
 	ctx->rd.height = HEIGHT;
 	ctx->rd.mlx_ptr = mlx_init();
 	ctx->rd.win_ptr = mlx_new_window(
-		ctx->rd.mlx_ptr,
-		ctx->rd.width,
-		ctx->rd.height,
-		"Fract-ol"
-	);
+			ctx->rd.mlx_ptr,
+			ctx->rd.width,
+			ctx->rd.height,
+			"Fract-ol"
+			);
 	if (!ctx->rd.mlx_ptr || !ctx->rd.win_ptr)
 		exit_fractal(ctx);
 }
@@ -30,18 +30,18 @@ void	init_render(t_context *ctx)
 void	init_img(t_context *ctx)
 {
 	ctx->im.ptr = mlx_new_image(
-		ctx->rd.mlx_ptr,
-		ctx->rd.width,
-		ctx->rd.height
-	);
+			ctx->rd.mlx_ptr,
+			ctx->rd.width,
+			ctx->rd.height
+			);
 	if (!ctx->im.ptr)
 		exit_fractal(ctx);
 	ctx->im.data = mlx_get_data_addr(
-		ctx->im.ptr,
-		&ctx->im.bpp,
-		&ctx->im.size_line,
-		&ctx->im.endian
-	);
+			ctx->im.ptr,
+			&ctx->im.bpp,
+			&ctx->im.size_line,
+			&ctx->im.endian
+			);
 }
 
 void	init_fractal(t_fractal *f)

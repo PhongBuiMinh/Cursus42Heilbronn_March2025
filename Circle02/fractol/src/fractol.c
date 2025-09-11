@@ -15,9 +15,7 @@
 void	set_pixel(t_context ctx, int x, int y, int iter)
 {
 	char	*pixel;
-	int		red;
-	int		green;
-	int		blue;
+	t_rgb	rgb;
 	double	t;
 	double	factor;
 
@@ -29,10 +27,10 @@ void	set_pixel(t_context ctx, int x, int y, int iter)
 	}
 	t = (double)iter / ctx.fr.max_iter;
 	factor = (1 - t) * t * 255;
-	red = clamp((int)(9 * factor));
-	green = clamp((int)(15 * factor));
-	blue = clamp((int)(8.5 * factor));
-	*(unsigned int *)pixel = red << 16 | green << 8 | blue;
+	rgb.red = clamp((int)(9 * factor));
+	rgb.green = clamp((int)(15 * factor));
+	rgb.blue = clamp((int)(8.5 * factor));
+	*(unsigned int *)pixel = rgb.red << 16 | rgb.green << 8 | rgb.blue;
 }
 
 void	render_fractal_image(t_context ctx)
@@ -57,7 +55,7 @@ void	render_fractal_image(t_context ctx)
 	mlx_put_image_to_window(
 		ctx.rd.mlx_ptr, ctx.rd.win_ptr, ctx.im.ptr,
 		0, 0
-	);
+		);
 }
 
 int	main(int argc, char **argv)

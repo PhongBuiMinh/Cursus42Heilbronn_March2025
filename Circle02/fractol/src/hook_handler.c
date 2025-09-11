@@ -16,7 +16,6 @@ int	mouse_hook(int button, int x, int y, t_context *ctx)
 {
 	(void)x;
 	(void)y;
-
 	if (button == 4)
 		ctx->fr.zoom *= 1.2;
 	else if (button == 5)
@@ -51,7 +50,7 @@ int	key_hook(int keycode, t_context *ctx)
 		ctx->fr.offset_y += 0.1 / ctx->fr.zoom;
 	else if (keycode == KEY_PLUS || keycode == PLUS)
 		ctx->fr.zoom *= 1.2;
-	else if ( keycode == KEY_MINUS || keycode == MINUS)
+	else if (keycode == KEY_MINUS || keycode == MINUS)
 		ctx->fr.zoom /= 1.2;
 	else if (keycode == R)
 		init_fractal(&ctx->fr);

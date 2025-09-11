@@ -22,9 +22,9 @@ int	compute_mandelbrot(int x, int y, t_render rd, t_fractal fr)
 	z.x = 0;
 	z.y = 0;
 	c.x = ((double)x / rd.width - 0.5)
-			* (3.0 / fr.zoom) + fr.offset_x -0.75;
+		* (3.0 / fr.zoom) + fr.offset_x -0.75;
 	c.y = ((double)y / rd.height - 0.5)
-			* (3.0 / fr.zoom) + fr.offset_y;
+		* (3.0 / fr.zoom) + fr.offset_y;
 	iter = -1;
 	while (++iter < fr.max_iter)
 	{
@@ -45,9 +45,9 @@ int	compute_julia(int x, int y, t_render rd, t_fractal fr)
 	int			iter;
 
 	z.x = ((double)x / rd.width - 0.5)
-			* (3.0 / fr.zoom) + fr.offset_x;
+		* (3.0 / fr.zoom) + fr.offset_x;
 	z.y = ((double)y / rd.height - 0.5)
-			* (3.0 / fr.zoom) + fr.offset_y;
+		* (3.0 / fr.zoom) + fr.offset_y;
 	c.x = fr.c.x;
 	c.y = fr.c.y;
 	iter = -1;
