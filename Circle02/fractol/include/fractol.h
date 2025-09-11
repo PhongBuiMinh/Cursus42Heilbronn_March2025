@@ -20,17 +20,21 @@
 # include <stdbool.h>
 // #include "../lib/minilibx-linux/mlx.h"
 
+// WINDOW
 # define WIDTH 600
 # define HEIGHT 500
 # define MAX_ITER 250
 
+// KEYCODE
+# define R 114
 # define ESC 27
 # define KEY_ESC 65307
-# define R 114
 # define PLUS 61
 # define MINUS 45
 # define KEY_PLUS 65451
 # define KEY_MINUS 65453
+# define LEFT_BRACKET 91
+# define RIGHT_BRACKET 93
 # define A 97
 # define D 100
 # define W 119
@@ -80,17 +84,22 @@ typedef struct	s_context
 	t_fractal	fr;
 }	t_context;
 
-void	init_img(t_render render, t_img *img);
-void	init_render(t_render *render);
+void	init_img(t_context *ctx);
+void	init_render(t_context *ctx);
 void	init_fractal(t_fractal *f);
 
 void	input_validation(int argc, char **argv, t_fractal *f);
 
-int		mouse_hook(int button, t_context *ctx);
+int		mouse_hook(int button, int x, int y, t_context *ctx);
 int		key_hook(int keycode, t_context *ctx);
 int		exit_fractal(t_context *ctx);
 
-int	compute_mandelbrot(int x, int y, t_render rd, t_fractal fr);
-int	compute_julia(int x, int y, t_render rd, t_fractal fr);
+int		compute_mandelbrot(int x, int y, t_render rd, t_fractal fr);
+int		compute_julia(int x, int y, t_render rd, t_fractal fr);
+void	render_fractal_image(t_context ctx);
+
+int		preprocess_atof(const char *str, int i, int *sign);
+int		ft_strcasecmp(char *s1, char *s2);
+int		clamp(int intensity);
 
 #endif

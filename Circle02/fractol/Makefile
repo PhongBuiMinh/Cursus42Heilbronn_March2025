@@ -37,7 +37,7 @@ MLX = $(MLX_PATH)/libmlx.a
 # RECOURSE
 SRC_DIR = src
 SRC = fractol.c \
-		init.c input_output.c \
+		init.c input_output.c utils.c \
 		hook_handler.c compute_fractal.c
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
@@ -60,7 +60,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c include/fractol.h | $(OBJ_DIR)
-	@echo "$(GREEN)Compling source files...$(DEFAULT)"
+	@echo "$(GREEN)Compling source file...$(DEFAULT)"
 	@$(CC) $(FLAG) -Iinclude -I$(LIBFT_PATH) -I$(MLX_PATH) -c $< -o $@
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)

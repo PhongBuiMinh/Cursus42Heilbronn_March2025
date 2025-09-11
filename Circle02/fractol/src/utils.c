@@ -12,46 +12,37 @@
 
 #include "fractol.h"
 
-void	init_render(t_context *ctx)
+int	clamp(int intensity)
 {
-	ctx->rd.width = WIDTH;
-	ctx->rd.height = HEIGHT;
-	ctx->rd.mlx_ptr = mlx_init();
-	ctx->rd.win_ptr = mlx_new_window(
-		ctx->rd.mlx_ptr,
-		ctx->rd.width,
-		ctx->rd.height,
-		"Fract-ol"
-	);
-	if (!ctx->rd.mlx_ptr || !ctx->rd.win_ptr)
-		exit_fractal(ctx);
+	if (intensity > 250)
+		return (255);
+	return (intensity);
 }
 
-void	init_img(t_context *ctx)
+int	ft_strcasecmp(char *s1, char *s2)
 {
-	ctx->im.ptr = mlx_new_image(
-		ctx->rd.mlx_ptr,
-		ctx->rd.width,
-		ctx->rd.height
-	);
-	if (!ctx->im.ptr)
-		exit_fractal(ctx);
-	ctx->im.data = mlx_get_data_addr(
-		ctx->im.ptr,
-		&ctx->im.bpp,
-		&ctx->im.size_line,
-		&ctx->im.endian
-	);
+	while (*s1 && *s2)
+	{
+		if (ft_tolower(*s1) != ft_tolower(*s2))
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+		s1++;
+		s2++;
+	}
+	return (unsigned char)*s1 - (unsigned char)*s2;
 }
 
-void	init_fractal(t_fractal *f)
+int	preprocess_atof(const char *str, int i, int *sign)
 {
-	f->zoom = 1.0;
-	f->offset_x = 0.0;
-	f->offset_y = 0.0;
-	f->max_iter = MAX_ITER;
-	if (isnan(f->c.x))
-		f->c.x = -0.8;
-	if (isnan(f->c.y))
-		f->c.y = 0.156;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (!ft_isdigit(str[i + 1]))
+			return (-1);
+		if (str[i] == '-')
+			*sign = -1;
+		i++;
+	}
+	return (i);
 }

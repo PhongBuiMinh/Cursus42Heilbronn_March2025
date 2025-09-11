@@ -12,10 +12,10 @@
 
 #include "fractol.h"
 
-int	mouse_hook(int button, t_context *ctx)
+int	mouse_hook(int button, int x, int y, t_context *ctx)
 {
-	// (void)x;
-	// (void)y;
+	(void)x;
+	(void)y;
 
 	if (button == 4)
 		ctx->fr.zoom *= 1.2;
@@ -23,6 +23,20 @@ int	mouse_hook(int button, t_context *ctx)
 		ctx->fr.zoom /= 1.2;
 	render_fractal_image(*ctx);
 	return (0);
+}
+
+void	handle_zoom(int keycode, t_fractal *fr)
+{
+	if (keycode == LEFT_BRACKET)
+	{
+		if (fr->max_iter > 50)
+			fr->max_iter -= 50;
+	}
+	else if (keycode == RIGHT_BRACKET)
+	{
+		if (fr->max_iter < 2000)
+			fr->max_iter += 50;
+	}
 }
 
 int	key_hook(int keycode, t_context *ctx)
@@ -43,23 +57,22 @@ int	key_hook(int keycode, t_context *ctx)
 		init_fractal(&ctx->fr);
 	else if (keycode == KEY_ESC || keycode == ESC)
 		exit(0);
-	else if (keycode == 91)
-		ctx->fr.max_iter -= 50;
-	else if (keycode == 93)
-		ctx->fr.max_iter += 50;
-	else if (keycode == 106)
-	{
-		ctx->fr.c.x = ((double)rand() / RAND_MAX - 0.5) * 3.0;
-		ctx->fr.c.y = ((double)rand() / RAND_MAX - 0.5) * 3.0;
-	}
-	printf("Keycode: %d, Iter: %d\n", keycode, ctx->fr.max_iter);
+	else if (keycode == LEFT_BRACKET || RIGHT_BRACKET == 93)
+		handle_zoom(keycode, &ctx->fr);
 	render_fractal_image(*ctx);
 	return (0);
 }
 
 int	exit_fractal(t_context *ctx)
 {
-	(void) ctx;
-
+	if (ctx->im.ptr)
+		mlx_destroy_image(ctx->rd.mlx_ptr, ctx->im.ptr);
+	if (ctx->rd.win_ptr)
+		mlx_destroy_window(ctx->rd.mlx_ptr, ctx->rd.win_ptr);
+	if (ctx->rd.mlx_ptr)
+	{
+		mlx_destroy_display(ctx->rd.mlx_ptr);
+		free(ctx->rd.mlx_ptr);
+	}
 	exit(0);
 }
