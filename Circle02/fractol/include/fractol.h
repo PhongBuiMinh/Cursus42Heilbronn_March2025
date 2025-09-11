@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:34:27 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/09/11 17:16:09 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/09/11 19:46:05 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,37 @@
 # define HEIGHT 250
 # define MAX_ITER 100
 
-// KEYCODE
-# define R 114
-# define ESC 27
-# define KEY_ESC 65307
-# define PLUS 61
-# define MINUS 45
-# define KEY_PLUS 65451
-# define KEY_MINUS 65453
-# define LEFT_BRACKET 91
-# define RIGHT_BRACKET 93
-# define A 97
-# define D 100
-# define W 119
-# define S 115
-# define LEFT_ARROW 65361
-# define RIGHT_ARROW 65363
-# define UP_ARROW 65362
-# define DOWN_ARROW 65364
+# ifdef __Linux__
+#  define R 114
+#  define ESC 27
+#  define PLUS 61
+#  define MINUS 45
+#  define LEFT_BRACKET 91
+#  define RIGHT_BRACKET 93
+#  define A 97
+#  define D 100
+#  define W 119
+#  define S 115
+#  define LEFT_ARROW 65361
+#  define RIGHT_ARROW 65363
+#  define UP_ARROW 65362
+#  define DOWN_ARROW 65364
+# elif __APPLE__
+#  define R 15
+#  define ESC 53
+#  define PLUS 24
+#  define MINUS 27
+#  define LEFT_BRACKET 33
+#  define RIGHT_BRACKET 30
+#  define A 0
+#  define D 2
+#  define W 13
+#  define S 1
+#  define LEFT_ARROW 123
+#  define RIGHT_ARROW 124
+#  define UP_ARROW 126
+#  define DOWN_ARROW 125
+# endif
 
 typedef struct s_complex
 {

@@ -48,13 +48,13 @@ int	key_hook(int keycode, t_context *ctx)
 		ctx->fr.offset_y -= 0.1 / ctx->fr.zoom;
 	else if (keycode == DOWN_ARROW || keycode == S)
 		ctx->fr.offset_y += 0.1 / ctx->fr.zoom;
-	else if (keycode == KEY_PLUS || keycode == PLUS)
+	else if (keycode == PLUS)
 		ctx->fr.zoom *= 1.2;
-	else if (keycode == KEY_MINUS || keycode == MINUS)
+	else if (keycode == MINUS)
 		ctx->fr.zoom /= 1.2;
 	else if (keycode == R)
 		init_fractal(&ctx->fr);
-	else if (keycode == KEY_ESC || keycode == ESC)
+	else if (keycode == ESC)
 		exit(0);
 	else if (keycode == LEFT_BRACKET || RIGHT_BRACKET == 93)
 		handle_zoom(keycode, &ctx->fr);
@@ -69,9 +69,8 @@ int	exit_fractal(t_context *ctx)
 	if (ctx->rd.win_ptr)
 		mlx_destroy_window(ctx->rd.mlx_ptr, ctx->rd.win_ptr);
 	if (ctx->rd.mlx_ptr)
-	{
-		mlx_destroy_display(ctx->rd.mlx_ptr);
 		free(ctx->rd.mlx_ptr);
-	}
 	exit(0);
 }
+
+// mlx_destroy_display(ctx->rd.mlx_ptr);
