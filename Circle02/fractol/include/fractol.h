@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:34:27 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/09/11 20:25:16 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/09/11 20:27:09 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # define MAX_ITER 100
 
 # ifdef __Linux__
-#define ZOOM_IN 4
-#define ZOOM_OUT 5
+#  define ZOOM_IN 4
+#  define ZOOM_OUT 5
 #  define R 114
 #  define ESC 27
 #  define PLUS 61
