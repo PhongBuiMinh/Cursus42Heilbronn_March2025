@@ -16,9 +16,9 @@ int	mouse_hook(int button, int x, int y, t_context *ctx)
 {
 	(void)x;
 	(void)y;
-	if (button == 4)
+	if (button == ZOOM_IN)
 		ctx->fr.zoom *= 1.2;
-	else if (button == 5)
+	else if (button == ZOOM_IN)
 		ctx->fr.zoom /= 1.2;
 	render_fractal_image(*ctx);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:34:27 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/09/11 19:46:05 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/09/11 20:25:16 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define MAX_ITER 100
 
 # ifdef __Linux__
+#define ZOOM_IN 4
+#define ZOOM_OUT 5
 #  define R 114
 #  define ESC 27
 #  define PLUS 61
@@ -41,6 +43,8 @@
 #  define UP_ARROW 65362
 #  define DOWN_ARROW 65364
 # elif __APPLE__
+#  define ZOOM_IN 5
+#  define ZOOM_OUT 4
 #  define R 15
 #  define ESC 53
 #  define PLUS 24
