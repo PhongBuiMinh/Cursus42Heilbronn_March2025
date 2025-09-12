@@ -12,39 +12,46 @@
 
 #include "fractol.h"
 
-int	clamp(int intensity)
+void	get_rgb(t_rgb *rgb, double t, int type)
 {
-	if (intensity > 250)
-		return (255);
-	return (intensity);
+	double	factor;
+
+	if (type == 0)
+	{
+		factor = (1 - t) * t * 255;
+		rgb->red = clamp((int)(9 * factor));
+		rgb->green = clamp((int)(15 * factor));
+		rgb->blue = clamp((int)(8.5 * factor));
+	}
+	else if (type == 1)
+	{
+		factor = sin(t * M_PI) * 255;
+		rgb->red = (int)(factor);
+		rgb->green = (int)(factor * 0.5);
+		rgb->blue = (int)(255 - factor);
+	}
+	else
+	{
+		factor = (1 - exp(-5 * t)) * 255;
+		rgb->red = (int)(factor * 0.8);
+		rgb->green = (int)(factor);
+		rgb->blue = (int)(factor * 0.6);
+	}
 }
 
-int	ft_strcasecmp(char *s1, char *s2)
+void	set_pixel(t_context ctx, int x, int y, int iter)
 {
-	while (*s1 && *s2)
-	{
-		if (ft_tolower(*s1) != ft_tolower(*s2))
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
+	char	*pixel;
+	t_rgb	rgb;
+	double	t;
 
-int	preprocess_atof(const char *str, int i, int *sign)
-{
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	pixel = ctx.im.data + (y * ctx.im.size_line + x * (ctx.im.bpp / 8));
+	if (iter == ctx.fr.max_iter)
 	{
-		if (!ft_isdigit(str[i + 1]))
-			return (-1);
-		if (str[i] == '-')
-			*sign = -1;
-		i++;
+		*(unsigned int *)pixel = 0x000000;
+		return ;
 	}
-	if (!ft_isdigit(str[i]))
-		return (-1);
-	return (i);
+	t = (double)iter / ctx.fr.max_iter;
+	get_rgb(&rgb, t, ctx.fr.color);
+	*(unsigned int *)pixel = rgb.red << 16 | rgb.green << 8 | rgb.blue;
 }

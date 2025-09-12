@@ -12,27 +12,6 @@
 
 #include "fractol.h"
 
-void	set_pixel(t_context ctx, int x, int y, int iter)
-{
-	char	*pixel;
-	t_rgb	rgb;
-	double	t;
-	double	factor;
-
-	pixel = ctx.im.data + (y * ctx.im.size_line + x * (ctx.im.bpp / 8));
-	if (iter == ctx.fr.max_iter)
-	{
-		*(unsigned int *)pixel = 0x000000;
-		return ;
-	}
-	t = (double)iter / ctx.fr.max_iter;
-	factor = (1 - t) * t * 255;
-	rgb.red = clamp((int)(9 * factor));
-	rgb.green = clamp((int)(15 * factor));
-	rgb.blue = clamp((int)(8.5 * factor));
-	*(unsigned int *)pixel = rgb.red << 16 | rgb.green << 8 | rgb.blue;
-}
-
 void	render_fractal_image(t_context ctx)
 {
 	int	iter;

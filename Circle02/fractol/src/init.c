@@ -50,6 +50,7 @@ void	init_fractal(t_fractal *f)
 	f->offset_x = 0.0;
 	f->offset_y = 0.0;
 	f->max_iter = MAX_ITER;
+	f->color = 0;
 	if (isnan(f->c.x))
 		f->c.x = -0.8;
 	if (isnan(f->c.y))

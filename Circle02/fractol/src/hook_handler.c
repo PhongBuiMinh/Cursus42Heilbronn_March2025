@@ -54,10 +54,13 @@ int	key_hook(int keycode, t_context *ctx)
 		ctx->fr.zoom /= 1.2;
 	else if (keycode == R)
 		init_fractal(&ctx->fr);
+	else if (keycode == C)
+		ctx->fr.color = (ctx->fr.color + 1) % 3;
 	else if (keycode == ESC)
 		exit(0);
 	else if (keycode == LEFT_BRACKET || RIGHT_BRACKET == 93)
 		handle_zoom(keycode, &ctx->fr);
+	printf("%d\n", keycode);
 	render_fractal_image(*ctx);
 	return (0);
 }

@@ -17,7 +17,7 @@ void	print_error(int error_type)
 	if (error_type == 0)
 		ft_putstr_fd("Available parameters: Julia / Mandelbrot\n", 1);
 	if (error_type == 1)
-		ft_putstr_fd("Usage: ./fractol fractal\n", 2);
+		ft_putstr_fd("Usage: ./fractol fractal (X) (Y)\n", 2);
 	if (error_type == 2)
 		ft_putstr_fd("Invalid arguments\n", 2);
 	exit(error_type);
@@ -57,12 +57,14 @@ void	input_validation(int argc, char **argv, t_fractal *f)
 		print_error(0);
 	if (argc > 4)
 		print_error(1);
+	if (argc == 3)
+		print_error(2);
 	if (!ft_strcasecmp(argv[1], "julia"))
 		f->type = 'j';
 	else if (!ft_strcasecmp(argv[1], "mandelbrot"))
 		f->type = 'm';
 	else
-		print_error(1);
+		print_error(0);
 	if (argc == 4)
 	{
 		if (!ft_atof(argv[2], &f->c.x) || !ft_atof(argv[3], &f->c.y))

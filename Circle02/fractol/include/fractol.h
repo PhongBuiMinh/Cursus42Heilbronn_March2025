@@ -24,12 +24,14 @@
 # define WIDTH 350
 # define HEIGHT 250
 # define MAX_ITER 100
+# define COLOR 0
 
-# ifdef __Linux__
+# ifdef __linux__
 #  define ZOOM_IN 4
 #  define ZOOM_OUT 5
 #  define R 114
-#  define ESC 27
+#  define C 99
+#  define ESC 65307
 #  define PLUS 61
 #  define MINUS 45
 #  define LEFT_BRACKET 91
@@ -42,10 +44,11 @@
 #  define RIGHT_ARROW 65363
 #  define UP_ARROW 65362
 #  define DOWN_ARROW 65364
-# elif __APPLE__
+# elif defined(__APPLE__)
 #  define ZOOM_IN 5
 #  define ZOOM_OUT 4
 #  define R 15
+#  define C 8
 #  define ESC 53
 #  define PLUS 24
 #  define MINUS 27
@@ -98,6 +101,7 @@ typedef struct s_fractal
 	double		offset_y;
 	int			max_iter;
 	char		type;
+	int			color;
 	t_complex	c;
 }	t_fractal;
 
@@ -112,16 +116,16 @@ void	init_img(t_context *ctx);
 void	init_render(t_context *ctx);
 void	init_fractal(t_fractal *f);
 
-void	input_validation(int argc, char **argv, t_fractal *f);
-
 int		mouse_hook(int button, int x, int y, t_context *ctx);
 int		key_hook(int keycode, t_context *ctx);
 int		exit_fractal(t_context *ctx);
 
+void	render_fractal_image(t_context ctx);
 int		compute_mandelbrot(int x, int y, t_render rd, t_fractal fr);
 int		compute_julia(int x, int y, t_render rd, t_fractal fr);
-void	render_fractal_image(t_context ctx);
+void	set_pixel(t_context ctx, int x, int y, int iter);
 
+void	input_validation(int argc, char **argv, t_fractal *f);
 int		preprocess_atof(const char *str, int i, int *sign);
 int		ft_strcasecmp(char *s1, char *s2);
 int		clamp(int intensity);
