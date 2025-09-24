@@ -6,32 +6,23 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:41:16 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/09/24 18:43:41 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/09/24 19:07:42 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 16:49:02 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/03/19 23:04:31 by fbui-min         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "pipex.h"
-
-void	execute_command()
+void	execute_command(char *argv, char **envp)
 {
-	return ;
+	char	**cmd;
+	char	*path;
+
+	// cmd = ft_split();
+	path = find_cmd_path();
+	execve(path, cmd, envp);
 }
 
-void	child_process(char **argv, int *pipefd)
+void	child_process(char **argv, char **envp int *pipefd)
 {
 	int	filein;
 
@@ -46,10 +37,8 @@ void	child_process(char **argv, int *pipefd)
 	close(pipefd[0]);
 	close(pipefd[1]);
 	close(filein);
-	execute_command();
-	// execve(cmd_path, cmd_args, envp);
+	execute_command(argv[2], envp);
 	// system(argv[2]); // in child
-	// execlp("cat", "cat", NULL); // in child
 }
 // int fd = open(const char *pathname, int flags, mode_t mode);
 // pathname: Path to the file
@@ -57,7 +46,7 @@ void	child_process(char **argv, int *pipefd)
 // mode: File permissions (used only when creating a file)
 // The mode argument is only used when you include the O_CREAT flag
 
-void	parent_process(char **argv, int *pipefd)
+void	parent_process(char **argv, char **envp, int *pipefd)
 {
 	int	fileout;
 
@@ -72,13 +61,11 @@ void	parent_process(char **argv, int *pipefd)
 	close(pipefd[1]);
 	close(pipefd[0]);
 	close(fileout);
-	execute_command();
-	// execve(argv[4], argv);
+	execute_command(argv[3], envp);
 	// system(argv[3]); // in parent
-	// execlp("wc", "wc", NULL); // in parent
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	int		pipefd[2];
 	pid_t	pid;
@@ -95,11 +82,11 @@ int	main(int argc, char **argv)
 	}
 	pid = fork();
 	if (pid == 0)
-		child_process(argv, pipefd);
+		child_process(argv, envp, pipefd);
 	else
 	{
 		waitpid(pid, NULL, 0);
-		parent_process(argv, pipefd);
+		parent_process(argv, envp, pipefd);
 	}
 }
 
