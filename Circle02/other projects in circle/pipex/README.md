@@ -130,3 +130,8 @@ Ah, now we're bridging the gap between system-level environment variables and de
 
 🧾 What Is a .env File?
 A .env file is a text file used in development to define environment variables in a simple KEY=value format. It's not part of the operating system, but many frameworks and tools (like Node.js, Python, Docker, etc.) use it to simulate or inject environment variables into your app.
+
+Path	Purpose
+/usr/local/bin	For user-installed software (e.g., custom tools, compiled binaries)
+/usr/bin	For standard system binaries installed by the OS or package manager
+/bin	For essential system commands needed for basic functionality (e.g., ls, cp, mv)
