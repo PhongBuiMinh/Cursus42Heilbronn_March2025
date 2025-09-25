@@ -19,5 +19,9 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include "libft.h"
+
+void	free_strs(char **str);
+void	fatal(char type);
 
 #endif

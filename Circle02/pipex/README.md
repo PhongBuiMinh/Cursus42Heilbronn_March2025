@@ -135,3 +135,8 @@ Path	Purpose
 /usr/local/bin	For user-installed software (e.g., custom tools, compiled binaries)
 /usr/bin	For standard system binaries installed by the OS or package manager
 /bin	For essential system commands needed for basic functionality (e.g., ls, cp, mv)
+
+🧠 Summary
+Match Target	Risk of False Positives	Correct for envp?
+"PATH"	✅ High	❌ No
+"PATH="	❌ None	✅ Yes
