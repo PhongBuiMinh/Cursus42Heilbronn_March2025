@@ -88,8 +88,8 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 	{
-		printf("Shell: < file1 cmd1 | cmd2 > file2");
-		printf("Usage: ./pipex file1 cmd1 cmd2 file2");
+		printf("Shell: < file1 cmd1 | cmd2 > file2\n");
+		printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
 		exit(0);
 	}
 	if (pipe(pipefd) == -1)
@@ -98,8 +98,6 @@ int	main(int argc, char **argv, char **envp)
 	if (pid == 0)
 		child_process(argv, envp, pipefd);
 	else
-	{
-		waitpid(pid, NULL, 0);
 		parent_process(argv, envp, pipefd);
-	}
+	waitpid(pid, NULL, 0);
 }

@@ -14,6 +14,15 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	if (argc < 5)
+	{
+		printf("Shell: < file1 cmd1 | cmd2 ... | cmdn > file2\n");
+		printf("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n");
+		printf("Shell: cmd << LIMITER | cmd1 >> file\n");
+		printf("Usage: ./pipex here_doc LIMITER cmd cmd1 file\n");
+		exit(0);
+	}
+	if ()
 	return (0);
 }
 

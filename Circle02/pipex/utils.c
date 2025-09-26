@@ -34,3 +34,9 @@ void	fatal(char type)
 		perror("cmd path");
 	exit(1);
 }
+
+// void	fatal(char *error)
+// {
+// 	perror("%s", error);
+// 	exit(1);
+// }
