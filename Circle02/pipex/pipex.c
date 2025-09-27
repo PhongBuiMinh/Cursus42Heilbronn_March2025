@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-void	write_pipe(char **argv, char **envp, int *pipefd)
+void	child_write_pipe(char **argv, char **envp, int *pipefd)
 {
 	int	filein;
 
@@ -25,7 +25,7 @@ void	write_pipe(char **argv, char **envp, int *pipefd)
 	execute_command(argv[2], envp);
 }
 
-void	read_pipe(char **argv, char **envp, int *pipefd)
+void	child_read_pipe(char **argv, char **envp, int *pipefd)
 {
 	int	fileout;
 
@@ -41,25 +41,25 @@ void	read_pipe(char **argv, char **envp, int *pipefd)
 int	main(int argc, char **argv, char **envp)
 {
 	int		pipefd[2];
-	pid_t	pid_r;
-	pid_t	pid_w;
+	pid_t	pid1;
+	pid_t	pid2;
 
 	if (argc != 5)
-	{
-		printf("Shell: < file1 cmd1 | cmd2 > file2\n");
-		printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
-		exit(0);
-	}
+		usage_exit("std");
 	if (pipe(pipefd) == -1)
 		fatal("pipe");
-	pid_w = fork();
-	if (pid_w == 0)
-		write_pipe(argv, envp, pipefd);
-	pid_r = fork();
-	if (pid_r == 0)
-		read_pipe(argv, envp, pipefd);
-	close(pidfd[0]);
-	close(pidfd[1]);
-	waitpid(pid_r, NULL, 0);
-	waitpid(pid_w, NULL, 0);
+	pid1 = fork();
+	if (pid1 == 0)
+		child_write_pipe(argv, envp, pipefd);
+	pid2 = fork();
+	if (pid2 == 0)
+		child_read_pipe(argv, envp, pipefd);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	while (wait(NULL) > 0)
+		;
 }
+
+// sleep(60);
+// ps aux | grep Z
+// ps -el | grep defunct

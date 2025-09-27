@@ -22,6 +22,26 @@ void	free_strs(char **str)
 	free(str);
 }
 
+void	usage_exit(const char *mode)
+{
+	if (!ft_memcmp(mode, "std", 3))
+	{
+		printf("Shell: < file1 cmd1 | cmd2 > file2\n");
+		printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
+	}
+	else if (!ft_memcmp(mode, "mul", 3))
+	{
+		printf("Shell: < file1 cmd1 | cmd2 ... | cmdn > file2\n");
+		printf("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n");
+	}
+	else if (!ft_memcmp(mode, "doc", 3))
+	{
+		printf("Shell: cmd << LIMITER | cmd1 >> file\n");
+		printf("Usage: ./pipex here_doc LIMITER cmd cmd1 file\n");
+	}
+	exit(0);
+}
+
 void	fatal(char *error)
 {
 	perror(error);

@@ -25,5 +25,6 @@ void	free_strs(char **str);
 void	fatal(char *error);
 char	*find_cmd_path(char *cmd, char **envp);
 void	execute_command(char *argv, char **envp);
+void	usage_exit(const char *mode);
 
 #endif

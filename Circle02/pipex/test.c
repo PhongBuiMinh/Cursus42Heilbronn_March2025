@@ -10,6 +10,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	// ps -eo pid,ppid,state,cmd | grep Z
 	// ps -eo pid,ppid,state,cmd | grep <parent_pid>
+	// ps aux | grep Z
+	// ps -el | grep defunct
 
 	// (void)argc;
 	// (void)argv;
@@ -19,8 +21,6 @@ int	main(int argc, char **argv, char **envp)
 	// 	printf("%s\n", envp[i]);
 }
 
-// 🧠 Key Rule
-// If you only fork once, the parent must stay alive long enough to call waitpid() — and must not call execve() before doing so.
 // Reaping = the parent calling wait() or waitpid() to collect the child’s exit status and remove it from the process table.
 
 // int fd = open(const char *pathname, int flags, mode_t mode);
