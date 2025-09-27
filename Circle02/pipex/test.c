@@ -2,13 +2,26 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
+	pid_t pid = fork();
+	if (pid == 0) {
+		exit(0); // Child exits immediately
+	} else {
+		sleep(60); // Parent does not call wait()
+	}
+	// ps -eo pid,ppid,state,cmd | grep Z
+	// ps -eo pid,ppid,state,cmd | grep <parent_pid>
 
-	int i = -1;
-	while (++i < 5)
-		printf("%s\n", envp[i]);
+	// (void)argc;
+	// (void)argv;
+
+	// int i = -1;
+	// while (++i < 5)
+	// 	printf("%s\n", envp[i]);
 }
+
+// 🧠 Key Rule
+// If you only fork once, the parent must stay alive long enough to call waitpid() — and must not call execve() before doing so.
+// Reaping = the parent calling wait() or waitpid() to collect the child’s exit status and remove it from the process table.
 
 // int fd = open(const char *pathname, int flags, mode_t mode);
 // pathname: Path to the file

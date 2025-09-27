@@ -22,21 +22,47 @@ void	free_strs(char **str)
 	free(str);
 }
 
-void	fatal(char type)
+void	fatal(char *error)
 {
-	if (type == 'i')
-		perror("open filein");
-	else if (type == 'o')
-		perror("open fileout");
-	else if (type == 'p')
-		perror("pipe");
-	else if (type == 'c')
-		perror("cmd path");
+	perror(error);
 	exit(1);
 }
 
-// void	fatal(char *error)
-// {
-// 	perror("%s", error);
-// 	exit(1);
-// }
+char	*find_cmd_path(char *cmd, char **envp)
+{
+	char	**paths;
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (envp[i] && ft_memcmp(envp[i], "PATH=", 5))
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(path, cmd);
+		if (!access(path, F_OK))
+			break ;
+		free(path);
+		i++;
+	}
+	free_strs(paths);
+	return (path);
+}
+
+void	execute_command(char *argv, char **envp)
+{
+	char	**cmd;
+	char	*path;
+
+	cmd = ft_split(argv, ' ');
+	path = find_cmd_path(cmd[0], envp);
+	if (!path)
+	{
+		free_strs(cmd);
+		fatal("cmd path");
+	}
+	execve(path, cmd, envp);
+}

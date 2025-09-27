@@ -22,10 +22,9 @@ int	main(int argc, char **argv, char **envp)
 		printf("Usage: ./pipex here_doc LIMITER cmd cmd1 file\n");
 		exit(0);
 	}
-	if ()
+	// if ()
 	return (0);
 }
-
 
 // ./pipex file1 cmd1 cmd2 cmd3 ... cmdN file2
 // < file1 cmd1 | cmd2 | cmd3 | ... | cmdN > file2
