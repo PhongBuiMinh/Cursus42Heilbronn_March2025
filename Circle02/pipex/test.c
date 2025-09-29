@@ -8,6 +8,7 @@ int	main(int argc, char **argv, char **envp)
 	} else {
 		sleep(60); // Parent does not call wait()
 	}
+	// system(argv[2]); // in child
 	// ps -eo pid,ppid,state,cmd | grep Z
 	// ps -eo pid,ppid,state,cmd | grep <parent_pid>
 	// ps aux | grep Z
@@ -21,7 +22,11 @@ int	main(int argc, char **argv, char **envp)
 	// 	printf("%s\n", envp[i]);
 }
 
+// A pipe end is only actually closed when ALL processes that have it open call close() on it.
 // Reaping = the parent calling wait() or waitpid() to collect the child’s exit status and remove it from the process table.
+// Parent closing doesn't affect children, but it can destroy pipes if you close them before all children that need them are forked.
+// Close in parent loop: Children are messy, but parent cleans up systematically
+// Close in children: Children are clean from the start
 
 // int fd = open(const char *pathname, int flags, mode_t mode);
 // pathname: Path to the file
@@ -44,22 +49,3 @@ int	main(int argc, char **argv, char **envp)
 // 🧠 How It Works
 // When a process (like your shell) launches another process (like ls), it passes its environment to the child.
 // The child gets a copy of the environment—not a reference—so it can modify its own variables without affecting the parent.
-
-// void	child_process(char **argv, char **envp, int *pipefd)
-// {
-// 	int	filein;
-
-// 	filein = open(argv[1], O_RDONLY);
-// 	if (filein == -1)
-// 	{
-// 		perror("open filein");
-// 		exit(1);
-// 	}
-// 	dup2(filein, 0);
-// 	dup2(pipefd[1], 1);
-// 	close(pipefd[0]);
-// 	close(pipefd[1]);
-// 	close(filein);
-// 	execute_command(argv[2], envp);
-// 	system(argv[2]); // in child
-// }

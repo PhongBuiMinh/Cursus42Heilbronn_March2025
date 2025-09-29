@@ -2,8 +2,14 @@ CC = gcc
 FLAG = -Wall -Werror -Wextra -g
 
 NAME = pipex
-SRC = pipex.c utils.c
+BONUS_NAME = pipex_bonus
+
+COMMON_SRC = utils.c bonus_utils.c execution.c
+SRC = pipex.c $(COMMON_SRC)
+BONUS_SRC = pipex_bonus.c $(COMMON_SRC)
+
 OBJ =  $(SRC:.c=.o)
+BONUS_OBJ =  $(BONUS_SRC:.c=.o)
 
 FILEIN = filein
 FILEOUT = fileout
@@ -23,12 +29,17 @@ $(LIBFT):
 $(NAME): $(OBJ) | $(LIBFT)
 	@$(CC) $(FLAG) $^ -L$(LIBFT_PATH) -lft -o $@
 
+bonus: $(BONUS_NAME)
+
+$(BONUS_NAME): $(BONUS_OBJ) | $(LIBFT)
+	@$(CC) $(FLAG) $^ -L$(LIBFT_PATH) -lft -o $@
+
 clean:
-	@rm -f $(OBJ)
+	@rm -f $(OBJ) $(BONUS_OBJ)
 	@make clean -C $(LIBFT_PATH)
 
 fclean: clean
-	@rm -f $(NAME) $(FILEIN) $(FILEOUT)
+	@rm -f $(NAME) $(BONUS_NAME) $(FILEIN) $(FILEOUT)
 	@make fclean -C $(LIBFT_PATH)
 
 re: fclean all

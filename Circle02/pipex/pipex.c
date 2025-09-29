@@ -41,18 +41,17 @@ void	child_read_pipe(char **argv, char **envp, int *pipefd)
 int	main(int argc, char **argv, char **envp)
 {
 	int		pipefd[2];
-	pid_t	pid1;
-	pid_t	pid2;
+	pid_t	pid;
 
 	if (argc != 5)
 		usage_exit("std");
 	if (pipe(pipefd) == -1)
 		fatal("pipe");
-	pid1 = fork();
-	if (pid1 == 0)
+	pid = fork();
+	if (pid == 0)
 		child_write_pipe(argv, envp, pipefd);
-	pid2 = fork();
-	if (pid2 == 0)
+	pid = fork();
+	if (pid == 0)
 		child_read_pipe(argv, envp, pipefd);
 	close(pipefd[0]);
 	close(pipefd[1]);

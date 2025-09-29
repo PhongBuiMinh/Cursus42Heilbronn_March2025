@@ -12,38 +12,33 @@
 
 #include "pipex.h"
 
-void	free_strs(char **str)
+void	free_pipes(int **pipes, int n_pipes)
 {
 	int	i;
 
 	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free(str);
+	while (++i < n_pipes)
+		free(pipes[i]);
+	free(pipes);
 }
 
-void	fatal(char *error)
+int	**allocate_pipes(int n_cmds)
 {
-	perror(error);
-	exit(1);
-}
+	int	**pipes;
+	int	i;
 
-void	usage_exit(const char *mode)
-{
-	if (!ft_memcmp(mode, "std", 3))
+	pipes = malloc(sizeof(int *) * (n_cmds - 1));
+	if (!pipes)
+		fatal("malloc pipes");
+	i = 0;
+	while (i < n_cmds - 1)
 	{
-		printf("Shell: < file1 cmd1 | cmd2 > file2\n");
-		printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
+		pipes[i] = malloc(sizeof(int) * 2);
+		if (!pipes[i])
+			fatal("malloc pipe fd");
+		if (pipe(pipes[i]) == -1)
+			fatal("pipe");
+		i++;
 	}
-	else if (!ft_memcmp(mode, "mul", 3))
-	{
-		printf("Shell: < file1 cmd1 | cmd2 ... | cmdn > file2\n");
-		printf("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n");
-	}
-	else if (!ft_memcmp(mode, "doc", 3))
-	{
-		printf("Shell: cmd << LIMITER | cmd1 >> file\n");
-		printf("Usage: ./pipex here_doc LIMITER cmd cmd1 file\n");
-	}
-	exit(0);
+	return (pipes);
 }

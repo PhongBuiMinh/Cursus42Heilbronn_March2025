@@ -21,10 +21,22 @@
 # include <sys/wait.h>
 # include "libft.h"
 
+typedef struct s_pipex {
+	int	**pipes;
+	int	n_cmds;
+	int	here_doc;
+	int	**here_pipe;
+}		t_pipex;
+
 void	free_strs(char **str);
+void	free_pipes(int **pipes, int n_pipes);
+
 void	fatal(char *error);
+void	usage_exit(const char *mode);
+
 char	*find_cmd_path(char *cmd, char **envp);
 void	execute_command(char *argv, char **envp);
-void	usage_exit(const char *mode);
+
+int		**allocate_pipes(int n_cmds);
 
 #endif
