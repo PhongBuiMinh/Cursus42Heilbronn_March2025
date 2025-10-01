@@ -38,74 +38,58 @@ int	here_doc(char *delimiter)
 	return (pipefd[0]);
 }
 
-void	child_chain(char *argv, char **envp, int *pipefd, int prev_pipe_read)
+void	child_chain(char *argv, char **envp, int *pipefd, int inputfd)
 {
 	close(pipefd[0]);
-	dup2(prev_pipe_read, 0);
+	dup2(inputfd, 0);
 	dup2(pipefd[1], 1);
+	close(inputfd);
 	close(pipefd[1]);
 	execute_command(argv, envp);
 }
 
-void	child_last(char *argv, char **envp, int *file)
+void	child_last(char *argv, char **envp, int *fd)
 {
-	dup2(file[0], 0);
-	dup2(file[1], 1);
-	close(file[1]);
+	dup2(fd[2], 0);
+	dup2(fd[1], 1);
+	close(fd[1]);
 	execute_command(argv, envp);
 }
 
-void	init_in_out(int argc, char **argv, int *file)
+static void	process_commands(int argc, char **argv, char **envp, int *fd)
 {
-	if (ft_memcmp(argv[1], "doc_here", 8) == 0)
-	{
-		file[0] = here_doc(argv[2]);
-		file[1] = open(argv[argc - 1],
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-	}
-	else
-	{
-		file[0] = open(argv[1], O_RDONLY);
-		if (file[0] == -1)
-			fatal("open infile");
-		file[1] = open(argv[argc - 1],
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
-	if (file[1] == -1)
-		fatal("open outfile");
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	int		file[2];
 	int		pipefd[2];
 	int		i;
 	pid_t	pid;
 
-	if (argc < 5)
-		usage_exit("Usage: ./pipex infile cmd1 cmd2 ... outfile");
-	printf("before\nfile in: %d, file out: %d\n", file[0], file[1]);
-	init_in_out(argc, argv, file);
-	printf("after\nfile in: %d, file out: %d\n", file[0], file[1]);
-	i = 2;
-	if (ft_memcmp(argv[1], "doc_here", 8) == 0)
-		i++;
+	i = get_start_index(argv[1]);
 	while (i < argc - 2)
 	{
 		pipe(pipefd);
 		pid = fork();
 		if (pid == 0)
-			child_chain(argv[i], envp, pipefd, file[0]);
-		close(file[0]);
+			child_chain(argv[i], envp, pipefd, fd[2]);
+		close(fd[2]);
 		close(pipefd[1]);
-		file[0] = pipefd[0];
+		fd[2] = pipefd[0];
 		i++;
 	}
 	pid = fork();
 	if (pid == 0)
-		child_last(argv[argc - 2], envp, file);
-	close(file[0]);
-	// close(outfile);
+		child_last(argv[argc - 2], envp, fd);
+	close(fd[2]);
+	close(fd[1]);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	int		fd[3];
+
+	if (argc < 5)
+		usage_exit("Usage: ./pipex infile cmd1 cmd2 ... outfile");
+	init_in_out(argc, argv, fd);
+	fd[2] = fd[0];
+	process_commands(argc, argv, envp, fd);
 	while (wait(NULL) > 0)
 		;
 }

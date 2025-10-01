@@ -12,6 +12,13 @@
 
 #include "pipex.h"
 
+typedef struct s_pipex {
+	int	**pipes;
+	int	n_cmds;
+	int	here_doc;
+	int	**here_pipe;
+}	t_pipex;
+
 void	free_pipes(int **pipes, int n_pipes)
 {
 	int	i;
