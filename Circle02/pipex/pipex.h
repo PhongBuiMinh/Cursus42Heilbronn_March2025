@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 16:02:59 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/09/24 17:44:56 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:58:50 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ typedef struct s_pipex {
 	int	n_cmds;
 	int	here_doc;
 	int	**here_pipe;
-}		t_pipex;
+}	t_pipex;
+
+typedef struct s_file {
+	int	infile;
+	int	outfile;
+}	t_file;
 
 void	free_strs(char **str);
 void	free_pipes(int **pipes, int n_pipes);
