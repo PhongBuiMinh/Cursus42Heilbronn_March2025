@@ -15,7 +15,7 @@ CFLAGs = -Wall -Wextra -Werror
 SRCs = get_next_line.c \
 		get_next_line_utils.c
 OBJs = $(SRCs:.c=.o)
-NAME = get_next_lineft.a
+NAME = get_next_line.a
 
 all: $(NAME)
 
