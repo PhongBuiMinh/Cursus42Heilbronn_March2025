@@ -6,7 +6,7 @@
 /*   By: fbui-min <fbui-min@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 16:02:59 by fbui-min          #+#    #+#             */
-/*   Updated: 2025/10/01 15:58:50 by fbui-min         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:21:39 by fbui-min         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@
 # include <sys/wait.h>
 # include "libft.h"
 # include "get_next_line.h"
-
-// typedef struct s_file {
-// 	int	infile;
-// 	int	outfile;
-// }	t_file;
 
 void	init_in_out(int argc, char **argv, int *file);
 int		get_start_index(char *argv);
