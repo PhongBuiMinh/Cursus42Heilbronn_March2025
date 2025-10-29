@@ -67,11 +67,39 @@ void	validate_parsed_arguments(t_data *data, int argc)
 		data->time_to_eat == -1 || data->time_to_sleep == -1) ||
 		(argc == 6 && data->must_eat_count == -1))
 	{
-		printf("Error: All arguments must be positive integer\n")
+		printf("Error: All arguments must be positive integer\n");
 		exit(1);
 	}
 	if (data->num_philos > 200)
-		printf("Warnings: %d philosophers might cause performance issues\n", data->num_philos)
+		printf("Warnings: %d philosophers might cause performance issues\n", data->num_philos);
+}
+
+void	initialize_mutexes(t_data *data)
+{
+	int	i;
+
+	i = 0;
+
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	if (!data->forks)
+	{
+		printf("Error: Failed to allocate memory for forks\n");
+		exit(1);
+	}
+	while (i < data->num_philos)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		{
+			printf("Error: Failed to initialize fork mutex %d\n", i);
+			exit(1);
+		}
+		i++;
+	}
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
+	{
+		printf("Error: Failed to initialize print mutex\n");
+		exit(1);
+	}
 }
 
 void	initialize_philos(t_data *data)
@@ -90,24 +118,21 @@ void	initialize_philos(t_data *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].data = data;
 		data->philos[i].eat_count = 0;
-		data->philos[i].last_meal_time = 0;
+		// data->philos[i].last_meal_time = 0;
+		data->philos[i].left_fork = &data->forks[i];
+		data->philos[i].right_fork = &data->forks[(i + 1) % data->num_philos];
 		i++;
-		// Initialize other fields, like forks, mutexes, states
 	}
-	// Initialize mutexes for forks and any shared resources here or separately
+	data->start_time = get_current_time();
 }
 
 int	main(int argc, char **argv)
 {
-	t_philo	philo;
+	// t_philo	philo;
 	t_data	data;
 
-	parse_arguments(argc);
+	parse_arguments(argc, argv, &data);
 	validate_parsed_arguments(&data, argc);
+	initialize_mutexes(&data);
 	initialize_philos(&data);
-	long	start_time = get_current_time();
-	usleep(1000);
-	long	current_time = get_current_time();
-	long	elapsed_time = current_time - start_time;
-	printf("timestamp: %ld\n", elapsed_time);
 }
