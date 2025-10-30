@@ -156,3 +156,22 @@ pthread_join(thread3, NULL);
 
 [prefix] + [action] + [target]
 parse_arguments(extraction) → validate_input(check extracted value) → initialize_simulation(set up)
+
+Resource Hierarchy (Best Recommended)
+Assign a unique order to each fork (resource) by numbering them.
+Philosophers always pick up the fork with the lower number first, then the higher.
+This prevents circular wait, a key condition for deadlock.
+It's simple to implement and ensures the system remains deadlock-free.
+It also allows multiple philosophers to eat concurrently if they don't contend for the same forks, preserving decent parallelism.
+
+In t_data:
+pthread_mutex_t *forks; is a pointer to an array of mutexes representing all forks.
+This array is dynamically allocated and each fork mutex must be initialized once with pthread_mutex_init() before use.
+
+In t_philo:
+Each philosopher stores pointers left_fork and right_fork that point to specific forks within that shared array.
+These are not new mutexes or new initializations — just references (pointers) to the already initialized mutexes in the global forks array.
+./philo 5 800 200 200
+./philo 5 800 200 200 5
+Thread Scheduling is Non-deterministic:
+All philosophers attempt to lock forks almost simultaneously, but which thread the OS schedules to run first is unpredictable. Philosopher 1’s thread may have started first or been scheduled faster, allowing it to lock fork 0 and fork 1 before others.

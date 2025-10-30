@@ -12,27 +12,32 @@
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void	parse_arguments(int argc, char **argv, t_data *data)
 {
-	// t_philo	philo;
-	t_data	data;
-	int	i;
+	if (argc < 5 || argc > 6)
+	{
+		printf("Usage: ./philo num_philos time_to_die time_to_eat time_to_sleep [must_eat_count]\n");
+		exit(0);
+	}
+	data->num_philos = philo_atoi(argv[1]);
+	data->time_to_die = philo_atoi(argv[2]);
+	data->time_to_eat = philo_atoi(argv[3]);
+	data->time_to_sleep = philo_atoi(argv[4]);
+	if (argc == 6)
+		data->must_eat_count = philo_atoi(argv[5]);
+	else
+		data->must_eat_count = -1;
+}
 
-	parse_arguments(argc, argv, &data);
-	validate_parsed_arguments(&data, argc);
-	initialize_mutexes(&data);
-	initialize_philos(&data);
-	i = 0;
-	while (i < data.num_philos)
+void	validate_parsed_arguments(t_data *data, int argc)
+{
+	if ((data->num_philos == -1 || data->time_to_die == -1 ||
+		data->time_to_eat == -1 || data->time_to_sleep == -1) ||
+		(argc == 6 && data->must_eat_count == -1))
 	{
-		pthread_create(&data.philos[i].thread_id, NULL, philo_routine, &data.philos[i]);
-		i++;
+		printf("Error: All arguments must be positive integer\n");
+		exit(1);
 	}
-	i = 0;
-	while (i < data.num_philos)
-	{
-		pthread_join(data.philos[i].thread_id, NULL);
-		i++;
-	}
-	// Cleanup
+	if (data->num_philos > 200)
+		printf("Warnings: %d philosophers might cause performance issues\n", data->num_philos);
 }

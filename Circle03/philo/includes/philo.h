@@ -24,8 +24,9 @@ typedef struct s_philo
 {
 	int				id;
 	int				eat_count;
-	pthread_mutex_t *left_fork;
-	pthread_mutex_t *right_fork;
+	unsigned long	last_meal_time;
+	int				left_fork_idx;
+	int				right_fork_idx;
 	struct s_data	*data;
 	pthread_t		thread_id;
 } 				t_philo;
@@ -42,5 +43,18 @@ typedef struct s_data
 	pthread_mutex_t	print_mutex;
 	t_philo 		*philos;
 }	t_data;
+
+void	parse_arguments(int argc, char **argv, t_data *data);
+void	validate_parsed_arguments(t_data *data, int argc);
+
+void	initialize_mutexes(t_data *data);
+void	initialize_philos(t_data *data);
+
+void	*philo_routine(void *arg);
+
+int		philo_atoi(const char *str);
+long	get_current_time(void);
+
+void	print_status(t_philo *philo, const char *status);
 
 #endif

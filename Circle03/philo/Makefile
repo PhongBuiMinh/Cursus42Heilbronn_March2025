@@ -21,27 +21,31 @@ endif
 NAME = philo
 
 SRC_DIR = srcs
-SRC = philo.c
+SRC = philo.c args.c init.c philo_routine.c utils.c
 OBJ_DIR = objs
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
+BIN_DIR = bin
 
 .PHONY: all re clean fclean
 
-all: $(NAME)
+all: $(BIN_DIR) $(BIN_DIR)/$(NAME)
 
-$(NAME): $(OBJ)
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
+$(BIN_DIR)/$(NAME): $(OBJ)
 	$(CC) $(FLAGS) $^ -o $@
 
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(FLAGS) -c $< -Iincludes  -o $@
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -rf $(BIN_DIR)
 
 re: fclean all
