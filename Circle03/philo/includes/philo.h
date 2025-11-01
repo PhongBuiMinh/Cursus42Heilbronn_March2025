@@ -23,10 +23,11 @@
 typedef struct s_philo
 {
 	int				id;
-	int				eat_count;
-	unsigned long	last_meal_time;
 	int				left_fork_idx;
 	int				right_fork_idx;
+	int				eat_count;
+	unsigned long	last_meal_time;
+	pthread_mutex_t	philo_mutex;
 	struct s_data	*data;
 	pthread_t		thread_id;
 } 				t_philo;
@@ -39,8 +40,10 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				must_eat_count;
 	unsigned long	start_time;
-	pthread_mutex_t *forks;
+	int				simulation_end;
+	pthread_mutex_t simulation_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t *forks;
 	t_philo 		*philos;
 }	t_data;
 
@@ -56,5 +59,7 @@ int		philo_atoi(const char *str);
 long	get_current_time(void);
 
 void	print_status(t_philo *philo, const char *status);
+void	*monitor_death(void *arg);
+int	is_simulation_ended(t_data *data);
 
 #endif

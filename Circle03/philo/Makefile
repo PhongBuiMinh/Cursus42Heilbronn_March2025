@@ -21,7 +21,7 @@ endif
 NAME = philo
 
 SRC_DIR = srcs
-SRC = philo.c args.c init.c philo_routine.c utils.c
+SRC = philo.c args.c init.c main.c utils.c monitor.c
 OBJ_DIR = objs
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 BIN_DIR = bin
@@ -31,13 +31,13 @@ BIN_DIR = bin
 all: $(BIN_DIR) $(BIN_DIR)/$(NAME)
 
 $(BIN_DIR):
-	mkdir -p $(BIN_DIR)
+	mkdir -p $@
 
-$(BIN_DIR)/$(NAME): $(OBJ)
+$(BIN_DIR)/$(NAME): $(OBJ) | $(BIN_DIR)
 	$(CC) $(FLAGS) $^ -o $@
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	mkdir -p $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(FLAGS) -c $< -Iincludes  -o $@

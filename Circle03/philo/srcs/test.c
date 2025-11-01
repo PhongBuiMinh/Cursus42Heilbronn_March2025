@@ -171,7 +171,10 @@ This array is dynamically allocated and each fork mutex must be initialized once
 In t_philo:
 Each philosopher stores pointers left_fork and right_fork that point to specific forks within that shared array.
 These are not new mutexes or new initializations — just references (pointers) to the already initialized mutexes in the global forks array.
-./philo 5 800 200 200
+./bin/philo 3 800 200 200
 ./philo 5 800 200 200 5
 Thread Scheduling is Non-deterministic:
 All philosophers attempt to lock forks almost simultaneously, but which thread the OS schedules to run first is unpredictable. Philosopher 1’s thread may have started first or been scheduled faster, allowing it to lock fork 0 and fork 1 before others.
+
+Data races require at least one write operation occurring concurrently with reads or other writes without proper synchronization.
+Multiple concurrent reads without writes are safe because the data’s value cannot change unexpectedly.

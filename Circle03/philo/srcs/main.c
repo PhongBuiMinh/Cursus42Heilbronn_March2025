@@ -12,41 +12,28 @@
 
 #include "philo.h"
 
-int	check_death(t_data *data)
+int	main(int argc, char **argv)
 {
-	int				i;
-	unsigned long	now;
+	t_data	data;
+	int	i;
+	pthread_t	monitor_thread;
 
+	parse_arguments(argc, argv, &data);
+	validate_parsed_arguments(&data, argc);
+	initialize_mutexes(&data);
+	initialize_philos(&data);
 	i = 0;
-	now = get_current_time();
-	while (i < data->num_philos)
+	while (i < data.num_philos)
 	{
-		pthread_mutex_lock(&data->philos[i].philo_mutex);
-		if (now - data->philos[i].last_meal_time > (unsigned long)data->time_to_die)
-		{
-			print_status(&data->philos[i], "died");
-			pthread_mutex_lock(&data->simulation_mutex);
-			data->simulation_end = 1;
-			pthread_mutex_unlock(&data->simulation_mutex);
-			pthread_mutex_unlock(&data->philos[i].philo_mutex);
-			return (1);
-		}
-		pthread_mutex_unlock(&data->philos[i].philo_mutex);
+		pthread_create(&data.philos[i].thread_id, NULL, philo_routine, &data.philos[i]);
 		i++;
 	}
-	return (0);
-}
-
-void	*monitor_death(void *arg)
-{
-	t_data  *data;
-
-	data = (t_data *)arg;
-	while (!data->simulation_end)
+	pthread_create(&monitor_thread, NULL, monitor_death, &data);
+	i = 0;
+	while (i < data.num_philos)
 	{
-		if (check_death(data))
-			break;
-		usleep(1000);   // check every 1ms for timely death message within 10 ms
+		pthread_join(data.philos[i].thread_id, NULL);
+		i++;
 	}
-	return (NULL);
+	// Cleanup
 }
