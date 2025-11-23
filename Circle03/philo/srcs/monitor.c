@@ -22,7 +22,7 @@ int	check_death(t_data *data)
 	while (i < data->num_philos)
 	{
 		pthread_mutex_lock(&data->philos[i].philo_mutex);
-		if (now - data->philos[i].last_meal_time > (unsigned long)data->time_to_die)
+		if (now - data->philos[i].last_meal_time >= (unsigned long)data->time_to_die)
 		{
 			print_status(&data->philos[i], "died");
 			pthread_mutex_lock(&data->simulation_mutex);
@@ -46,7 +46,7 @@ void	*monitor_death(void *arg)
 	{
 		if (check_death(data))
 			break;
-		usleep(1000);   // check every 1ms for timely death message within 10 ms
+		usleep(50);
 	}
 	return (NULL);
 }

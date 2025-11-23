@@ -14,9 +14,9 @@
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
-	int	i;
 	pthread_t	monitor_thread;
+	t_data		data;
+	int			i;
 
 	parse_arguments(argc, argv, &data);
 	validate_parsed_arguments(&data, argc);

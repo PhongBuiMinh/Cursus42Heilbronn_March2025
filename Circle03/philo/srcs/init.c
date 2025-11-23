@@ -45,7 +45,6 @@ void	initialize_philos(t_data *data)
 	data->philos = malloc(sizeof(t_philo) * data->num_philos);
 	if (!data->philos)
 		exit_error("Error: Failed to allocate memory for philos\n");
-	data->start_time = get_current_time();
 	data->simulation_end = 0;
 	i = 0;
 	while (i < data->num_philos)
@@ -53,7 +52,7 @@ void	initialize_philos(t_data *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].data = data;
 		data->philos[i].eat_count = 0;
-		data->philos[i].last_meal_time = data->start_time;
+		data->philos[i].last_meal_time = get_current_time();
 		data->philos[i].left_fork_idx = i;
 		data->philos[i].right_fork_idx = (i + 1) % data->num_philos;
 		if (pthread_mutex_init(&data->philos[i].philo_mutex, NULL) != 0)

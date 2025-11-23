@@ -1,3 +1,5 @@
+./bin/philo
+
 typedef struct s_data
 {
     int             num_philos;

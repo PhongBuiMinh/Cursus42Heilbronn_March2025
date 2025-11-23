@@ -47,7 +47,7 @@ int	is_simulation_ended(t_data *data)
 long	get_current_time(void)
 {
 	struct timeval	tv;
-	long	miliseconds;
+	long			miliseconds;
 	
 	gettimeofday(&tv, NULL);
 	miliseconds = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
