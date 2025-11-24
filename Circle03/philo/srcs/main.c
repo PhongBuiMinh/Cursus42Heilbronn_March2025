@@ -35,5 +35,6 @@ int	main(int argc, char **argv)
 		pthread_join(data.philos[i].thread_id, NULL);
 		i++;
 	}
-	// Cleanup
+	pthread_join(monitor_thread, NULL);
+	cleanup(&data);
 }

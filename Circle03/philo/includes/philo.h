@@ -62,5 +62,6 @@ long	get_current_time(void);
 void	print_status(t_philo *philo, const char *status);
 void	*monitor_death(void *arg);
 int	is_simulation_ended(t_data *data);
+void cleanup(t_data *data);
 
 #endif

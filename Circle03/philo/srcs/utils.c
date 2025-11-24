@@ -24,9 +24,9 @@ int	philo_atoi(const char *str)
 		i++;
 	if (str[i] == '-')
 		return (-1);
-	while (str[i] >= 48 && str[i] <= 57)
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		num = (num * 10) + (str[i] - 48);
+		num = (num * 10) + (str[i] - '0');
 		i++;
 	}
 	if (str[i] != '\0' || num == 0)
@@ -63,8 +63,6 @@ void	print_status(t_philo *philo, const char *status)
 {
 	long	timestamp;
 
-	if (is_simulation_ended(philo->data))
-		return;
 	pthread_mutex_lock(&philo->data->print_mutex);
 	if (philo->data->simulation_end)
 	{

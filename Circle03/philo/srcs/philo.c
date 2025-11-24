@@ -52,16 +52,17 @@ void	*philo_routine(void *arg)
 		print_status(philo, "is thinking");
 		usleep(500);
 		lock_forks(philo);
+		pthread_mutex_lock(&philo->philo_mutex);
 		if (is_simulation_ended(philo->data))
 		{
+			pthread_mutex_unlock(&philo->philo_mutex);
 			unlock_forks(philo);
-			break;
+			break ;
 		}
-		pthread_mutex_lock(&philo->philo_mutex);
 		philo->last_meal_time = get_current_time();
 		philo->eat_count++;
-		print_status(philo, "is eating");
 		pthread_mutex_unlock(&philo->philo_mutex);
+		print_status(philo, "is eating");
 		usleep(philo->data->time_to_eat * 1000);
 		unlock_forks(philo);
 		print_status(philo, "is sleeping");

@@ -21,7 +21,7 @@ endif
 NAME = philo
 
 SRC_DIR = srcs
-SRC = philo.c args.c init.c main.c utils.c monitor.c
+SRC = philo.c args.c init.c main.c utils.c monitor.c cleanup.c
 OBJ_DIR = objs
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 BIN_DIR = bin

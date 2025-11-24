@@ -42,11 +42,11 @@ void	*monitor_death(void *arg)
 	t_data  *data;
 
 	data = (t_data *)arg;
-	while (!data->simulation_end)
+	while (1)
 	{
 		if (check_death(data))
 			break;
-		usleep(50);
+		usleep(10);
 	}
 	return (NULL);
 }
