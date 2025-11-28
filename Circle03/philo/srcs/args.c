@@ -31,13 +31,14 @@ void	parse_arguments(int argc, char **argv, t_data *data)
 
 void	validate_parsed_arguments(t_data *data, int argc)
 {
-	if ((data->num_philos == -1 || data->time_to_die == -1 ||
-		data->time_to_eat == -1 || data->time_to_sleep == -1) ||
-		(argc == 6 && data->must_eat_count == -1))
+	if ((data->num_philos == -1 || data->time_to_die == -1
+			|| data->time_to_eat == -1 || data->time_to_sleep == -1)
+		|| (argc == 6 && data->must_eat_count == -1))
 	{
 		printf("Error: All arguments must be positive integer\n");
 		exit(1);
 	}
 	if (data->num_philos > 200)
-		printf("Warnings: %d philosophers might cause performance issues\n", data->num_philos);
+		printf("Warning: %d philosophers might cause performance issues\n",
+			data->num_philos);
 }

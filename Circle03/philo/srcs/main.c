@@ -25,7 +25,8 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (i < data.num_philos)
 	{
-		pthread_create(&data.philos[i].thread_id, NULL, philo_routine, &data.philos[i]);
+		pthread_create(&data.philos[i].thread_id, NULL, philo_routine,
+			&data.philos[i]);
 		i++;
 	}
 	pthread_create(&monitor_thread, NULL, monitor_death, &data);

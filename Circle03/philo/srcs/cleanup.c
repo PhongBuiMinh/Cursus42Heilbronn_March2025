@@ -12,24 +12,25 @@
 
 #include "philo.h"
 
-void cleanup(t_data *data)
+void	cleanup(t_data *data)
 {
 	int	i;
 
 	i = 0;
+	if (!data)
+		return ;
 	while (i < data->num_philos)
 	{
-		pthread_mutex_destroy(&data->philos[i].philo_mutex);
-		i++;
-	}
-	i = 0;
-	while (i < data->num_philos)
-	{
-		pthread_mutex_destroy(&data->forks[i]);
+		if (data->philos)
+			pthread_mutex_destroy(&data->philos[i].philo_mutex);
+		if (data->forks)
+			pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
 	pthread_mutex_destroy(&data->print_mutex);
 	pthread_mutex_destroy(&data->simulation_mutex);
-	free(data->philos);
-    free(data->forks);
+	if (data->philos)
+		free(data->philos);
+	if (data->forks)
+		free(data->forks);
 }

@@ -16,7 +16,7 @@ int	philo_atoi(const char *str)
 {
 	int	num;
 	int	i;
-	
+
 	num = 0;
 	i = 0;
 	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
@@ -30,8 +30,8 @@ int	philo_atoi(const char *str)
 		i++;
 	}
 	if (str[i] != '\0' || num == 0)
-	return (-1);
-return (num);
+		return (-1);
+	return (num);
 }
 
 int	is_simulation_ended(t_data *data)
@@ -48,7 +48,7 @@ long	get_current_time(void)
 {
 	struct timeval	tv;
 	long			miliseconds;
-	
+
 	gettimeofday(&tv, NULL);
 	miliseconds = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	return (miliseconds);
@@ -64,11 +64,12 @@ void	print_status(t_philo *philo, const char *status)
 	long	timestamp;
 
 	pthread_mutex_lock(&philo->data->print_mutex);
-	if (philo->data->simulation_end)
-	{
-		pthread_mutex_unlock(&philo->data->print_mutex);
-		return;
-	}
+	// if (philo->data->simulation_end)
+	// {
+	// 	pthread_mutex_unlock(&philo->data->print_mutex);
+	// 	return ;
+	//	READ shared data fields
+	// }
 	timestamp = get_timestamp(philo);
 	printf("%ld %d %s\n", timestamp, philo->id, status);
 	pthread_mutex_unlock(&philo->data->print_mutex);
