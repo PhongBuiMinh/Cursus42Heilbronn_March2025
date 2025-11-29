@@ -177,7 +177,7 @@ valgrind --tool=helgrind ./bin/philo
 valgrind --leak-check=full ./bin/philo
 
 5 800 200 200 - no death 
-5 800 200 200 7- no death and stop when all philos have eaten enough
+5 800 200 200 7 - no death and stop when all philos have eaten enough
 4 410 200 200 - no death 
 4 310 200 100 - 1 death
 2 different N - death delayed is < 10 test other values,

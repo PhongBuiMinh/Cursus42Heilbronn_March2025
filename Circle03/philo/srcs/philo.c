@@ -11,22 +11,46 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-//
+
 void	lock_forks(t_philo *philo)
 {
-	if (philo->left_fork_idx < philo->right_fork_idx)
+	int first_fork;
+	int second_fork;
+	
+	first_fork = philo->left_fork_idx;
+	second_fork = philo->right_fork_idx;
+	if (first_fork > second_fork)
 	{
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork_idx]);
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork_idx]);
-		print_status(philo, "has taken a fork");
+		first_fork = philo->right_fork_idx;
+		second_fork = philo->left_fork_idx;
 	}
-	else
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork_idx]);
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork_idx]);
+	pthread_mutex_lock(&philo->data->forks[first_fork]);
+	if (!is_simulation_ended(philo->data))
 		print_status(philo, "has taken a fork");
-	}
+	pthread_mutex_lock(&philo->data->forks[second_fork]);
+	if (!is_simulation_ended(philo->data))
+		print_status(philo, "has taken a fork");
 }
+
+// void	lock_forks(t_philo *philo)
+// {
+// 	if (philo->left_fork_idx < philo->right_fork_idx)
+// 	{
+// 		pthread_mutex_lock(&philo->data->forks[philo->left_fork_idx]);
+// 		if (!is_simulation_ended(philo->data))
+// 			print_status(philo, "has taken a fork");
+// 		pthread_mutex_lock(&philo->data->forks[philo->right_fork_idx]);
+// 	}
+// 	else
+// 	{
+// 		pthread_mutex_lock(&philo->data->forks[philo->right_fork_idx]);
+// 		if (!is_simulation_ended(philo->data))
+// 			print_status(philo, "has taken a fork");
+// 		pthread_mutex_lock(&philo->data->forks[philo->left_fork_idx]);
+// 	}
+// 	if (!is_simulation_ended(philo->data))
+// 		print_status(philo, "has taken a fork");
+// }
 
 void	unlock_forks(t_philo *philo)
 {
