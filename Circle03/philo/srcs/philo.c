@@ -14,8 +14,8 @@
 
 void	lock_forks(t_philo *philo)
 {
-	int first_fork;
-	int second_fork;
+	int	first_fork;
+	int	second_fork;
 	
 	first_fork = philo->left_fork_idx;
 	second_fork = philo->right_fork_idx;
@@ -32,38 +32,20 @@ void	lock_forks(t_philo *philo)
 		print_status(philo, "has taken a fork");
 }
 
-// void	lock_forks(t_philo *philo)
-// {
-// 	if (philo->left_fork_idx < philo->right_fork_idx)
-// 	{
-// 		pthread_mutex_lock(&philo->data->forks[philo->left_fork_idx]);
-// 		if (!is_simulation_ended(philo->data))
-// 			print_status(philo, "has taken a fork");
-// 		pthread_mutex_lock(&philo->data->forks[philo->right_fork_idx]);
-// 	}
-// 	else
-// 	{
-// 		pthread_mutex_lock(&philo->data->forks[philo->right_fork_idx]);
-// 		if (!is_simulation_ended(philo->data))
-// 			print_status(philo, "has taken a fork");
-// 		pthread_mutex_lock(&philo->data->forks[philo->left_fork_idx]);
-// 	}
-// 	if (!is_simulation_ended(philo->data))
-// 		print_status(philo, "has taken a fork");
-// }
-
 void	unlock_forks(t_philo *philo)
 {
-	if (philo->left_fork_idx < philo->right_fork_idx)
+	int	first_fork;
+	int	second_fork;
+
+	first_fork = philo->left_fork_idx;
+	second_fork = philo->right_fork_idx;
+	if (first_fork > second_fork)
 	{
-		pthread_mutex_unlock(&philo->data->forks[philo->right_fork_idx]);
-		pthread_mutex_unlock(&philo->data->forks[philo->left_fork_idx]);
+		first_fork = philo->right_fork_idx;
+		second_fork = philo->left_fork_idx;
 	}
-	else
-	{
-		pthread_mutex_unlock(&philo->data->forks[philo->left_fork_idx]);
-		pthread_mutex_unlock(&philo->data->forks[philo->right_fork_idx]);
-	}
+	pthread_mutex_unlock(&philo->data->forks[first_fork]);
+	pthread_mutex_unlock(&philo->data->forks[second_fork]);
 }
 
 void	eat_and_sleep(t_philo *philo)
@@ -117,5 +99,7 @@ void	*philo_routine(void *arg)
 		}
 		eat_and_sleep(philo);
 	}
+	// print_status(philo, "finished");
+	// usleep(500);
 	return (NULL);
 }

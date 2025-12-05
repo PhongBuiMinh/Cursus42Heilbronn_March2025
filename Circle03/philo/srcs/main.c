@@ -39,3 +39,6 @@ int	main(int argc, char **argv)
 	pthread_join(monitor_thread, NULL);
 	cleanup(&data);
 }
+
+// valgrind --tool=helgrind ./bin/philo
+// valgrind --leak-check=full ./bin/philo

@@ -54,23 +54,12 @@ long	get_current_time(void)
 	return (miliseconds);
 }
 
-long	get_timestamp(t_philo *philo)
-{
-	return (get_current_time() - philo->data->start_time);
-}
-
 void	print_status(t_philo *philo, const char *status)
 {
 	long	timestamp;
 
 	pthread_mutex_lock(&philo->data->print_mutex);
-	// if (philo->data->simulation_end)
-	// {
-	// 	pthread_mutex_unlock(&philo->data->print_mutex);
-	// 	return ;
-	//	READ shared data fields
-	// }
-	timestamp = get_timestamp(philo);
+	timestamp = get_current_time() - philo->data->start_time;
 	printf("%ld %d %s\n", timestamp, philo->id, status);
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }

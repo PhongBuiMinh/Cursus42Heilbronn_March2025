@@ -67,15 +67,6 @@ void	print_status(t_philo *philo, char *status)
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
-void	smart_sleep(long milliseconds)
-{
-	long	start;
-
-	start = get_current_time();
-	while (get_current_time() - start < milliseconds)
-		usleep(100);
-}
-
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
@@ -176,6 +167,7 @@ other writes without proper synchronization.Multiple concurrent reads without wr
 valgrind --tool=helgrind ./bin/philo
 valgrind --leak-check=full ./bin/philo
 
+1 800 200 200
 5 800 200 200 - no death 
 5 800 200 200 7 - no death and stop when all philos have eaten enough
 4 410 200 200 - no death 
